@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Prunable;
 
 /**
  * App\Models\JwtToken
@@ -39,6 +40,7 @@ use Illuminate\Database\Eloquent\Model;
 class JwtToken extends Model
 {
     use HasFactory;
+    use Prunable;
 
     /**
      * The attributes that are mass assignable.
@@ -87,5 +89,16 @@ class JwtToken extends Model
     public function user()
     {
         return $this->hasOne('App\Models\User');
+    }
+
+    /**
+     *
+     * Get the prunable model query.
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function prunable()
+    {
+        return static::where('expires_at', '<', now());
     }
 }

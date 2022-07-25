@@ -15,7 +15,8 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')->hourly();
+        // Jwt Tokens will be marked as prunable by the expire date.
+        $schedule->command('model:prune')->daily();
     }
 
     /**
