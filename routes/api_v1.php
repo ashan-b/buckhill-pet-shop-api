@@ -1,5 +1,6 @@
 <?php
 use App\Http\Controllers\Api\V1\UserController;
+use App\Http\Controllers\Api\V1\AdminController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -17,4 +18,8 @@ Route::get('/', function () {
 
 Route::prefix('user')->group(function () {
     Route::get('/login', [UserController::class, 'login']);
+});
+
+Route::prefix('admin')->group(function () {
+    Route::get('/login', [AdminController::class, 'login']);
 });
