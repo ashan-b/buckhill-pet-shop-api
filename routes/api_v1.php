@@ -1,6 +1,8 @@
 <?php
+
 use App\Http\Controllers\Api\V1\UserController;
 use App\Http\Controllers\Api\V1\AdminController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -12,14 +14,39 @@ use App\Http\Controllers\Api\V1\AdminController;
 |
 */
 
-Route::get('/', function () {
-    return "Hi";
-});
+Route::get(
+    '/',
+    function () {
+        return "Hi";
+    }
+);
 
-Route::prefix('user')->group(function () {
-    Route::get('/login', [UserController::class, 'login']);
-});
+Route::prefix('user')->group(
+    function () {
+        Route::get('/login', [UserController::class, 'login']);
+    }
 
-Route::prefix('admin')->group(function () {
-    Route::get('/login', [AdminController::class, 'login']);
-});
+
+);
+
+Route::prefix('admin')->group(
+    function () {
+        Route::get('/login', [AdminController::class, 'login']);
+    }
+);
+
+
+Route::group(
+    [
+        'middleware' => 'jwt_verification',
+        'prefix' => 'user'
+    ],
+    function ($router) {
+        Route::get(
+            '/test',
+            function () {
+                return "Hi";
+            }
+        );
+    }
+);

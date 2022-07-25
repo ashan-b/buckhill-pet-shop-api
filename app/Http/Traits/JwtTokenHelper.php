@@ -3,6 +3,7 @@ namespace App\Http\Traits;
 
 use App\Models\JwtToken;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Lcobucci\JWT\Configuration;
 use Lcobucci\JWT\Signer\Key\InMemory;
@@ -40,6 +41,31 @@ trait JwtTokenHelper{
         $jwtToken->save();
 
         return $token->toString();
+    }
+
+    public function validateJwtToken($bearerToken){
+        $privateKeyPath = env("JWT_PRIVATE_KEY_PATH");
+        $publicKeyPath = env("JWT_PUBLIC_KEY_PATH");
+
+        $config = Configuration::forAsymmetricSigner(
+            new Signer\Rsa\Sha256(),
+            InMemory::file(base_path($privateKeyPath)),
+            InMemory::file(base_path($publicKeyPath))
+        );
+
+        $parsedJwtToken = $config->parser()->parse($bearerToken);
+
+//        dd($parsedJwtToken->toString());
+        $jwtToken = JwtToken::where('unique_id','=',$bearerToken)->first();
+        if($jwtToken!==null && $jwtToken->expires_at > Carbon::now()){
+            $jwtToken->last_used_at = Carbon::now();
+            $jwtToken->save();
+            return $jwtToken;
+        }else{
+            return null;
+        }
+
+
     }
 
 }
