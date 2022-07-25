@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Api\V1;
 //use App\Http\Controllers\AppBaseController;
 use App\Http\Controllers\AppBaseController;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Api\V1\UserController\UserLoginRequest;
+use App\Http\Requests\Api\V1\AdminController\AdminLoginRequest;
 use App\Http\Traits\JwtTokenHelper;
 use App\Http\Traits\ResponseGenerator;
 use App\Models\JwtToken;
@@ -25,7 +25,7 @@ class UserController extends Controller
     {
     }
 
-    public function login(UserLoginRequest $request)
+    public function login(AdminLoginRequest $request)
     {
         /*
         * User story:
@@ -38,7 +38,7 @@ class UserController extends Controller
         $email = $request->input('email');
         $password = $request->input('password');
 
-        $user = User::where('email', $email)->first();
+        $user = User::where('email', $email)->where('is_admin', false)->first();
 
         if ($user != null && Hash::check($password, $user->password)) {
             $token = $this->generateJwtToken($user);
