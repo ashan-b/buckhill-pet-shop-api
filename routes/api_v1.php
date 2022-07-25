@@ -1,5 +1,5 @@
 <?php
-
+use App\Http\Controllers\Api\V1\UserController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -13,4 +13,8 @@
 
 Route::get('/', function () {
     return "Hi";
+});
+
+Route::prefix('user')->group(function () {
+    Route::get('/login', [UserController::class, 'login']);
 });
