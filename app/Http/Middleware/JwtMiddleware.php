@@ -28,7 +28,7 @@ class JwtMiddleware
             $bearerToken= $request->bearerToken();
 
             if($bearerToken==null){
-                return $this->sendError("Auth token not found.", [], [], 403);
+                return $this->sendError("Auth token not found.", [], [], 401);
             }
 
              $jwtToken = $this->validateJwtToken($bearerToken);
@@ -36,7 +36,7 @@ class JwtMiddleware
             if($jwtToken!=null){
                 return $next($request);
             }else{
-                return $this->sendError("Invalid auth token.", [], [], 403);
+                return $this->sendError("Invalid auth token.", [], [], 401);
             }
 
 

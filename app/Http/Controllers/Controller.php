@@ -23,7 +23,19 @@ use Illuminate\Routing\Controller as BaseController;
  *          email="ashan-b@live.com"
  *      )
  * )
+ *
+ * @OA\SecurityScheme(
+ *      securityScheme="bearerAuth",
+ *      in="header",
+ *      name="bearerAuth",
+ *      type="http",
+ *      scheme="bearer",
+ *      bearerFormat="JWT",
+ * )
  */
+
+
+
 class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;

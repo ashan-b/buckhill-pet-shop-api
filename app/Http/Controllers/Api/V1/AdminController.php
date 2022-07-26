@@ -2,16 +2,14 @@
 
 namespace App\Http\Controllers\Api\V1;
 
-//use App\Http\Controllers\AppBaseController;
 use App\Http\Controllers\AppBaseController;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\V1\AdminController\AdminLoginRequest;
+use App\Http\Requests\Api\V1\UserController\AdminLogoutRequest;
+use App\Http\Requests\Api\V1\UserController\UserLogoutRequest;
 use App\Http\Traits\JwtTokenHelper;
 use App\Http\Traits\ResponseGenerator;
-use App\Models\JwtToken;
 use App\Models\User;
-use Carbon\Carbon;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
 
@@ -99,6 +97,46 @@ class AdminController extends Controller
             return $this->sendSuccess(["token" => $token]);
         } else {
             return $this->sendError("Failed to authenticate user", [], null, 422);
+        }
+    }
+
+    /**
+     * @OA\Get(
+     *     path="/api/v1/admin/logout",
+     *     summary="Logout an Admin account",
+     *     tags={"Admin"},
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Response(
+     *         response=200,
+     *         description="OK"
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Unauthorized"
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Page not found"
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Unprocessable Entity"
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Internal server error"
+     *     )
+     * )
+     **/
+    public function logout(AdminLogoutRequest $request)
+    {
+        $bearerToken = $request->bearerToken();
+        $tokenInvalidated = $this->invalidateJwtToken($bearerToken);
+
+        if ($tokenInvalidated == true) {
+            return $this->sendSuccess([]);
+        } else {
+            return $this->sendError("Invalid token.", [], null, 422);
         }
     }
 

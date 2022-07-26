@@ -42,11 +42,16 @@ Route::group(
         'prefix' => 'user'
     ],
     function ($router) {
-        Route::get(
-            '/test',
-            function () {
-                return "Hi";
-            }
-        );
+        Route::get('/logout', [UserController::class, 'logout']);
+    }
+);
+
+Route::group(
+    [
+        'middleware' => 'jwt_verification',
+        'prefix' => 'admin'
+    ],
+    function ($router) {
+        Route::get('/logout', [AdminController::class, 'logout']);
     }
 );
