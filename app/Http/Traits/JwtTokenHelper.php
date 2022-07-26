@@ -55,7 +55,6 @@ trait JwtTokenHelper{
 
         $parsedJwtToken = $config->parser()->parse($bearerToken);
 
-//        dd($parsedJwtToken->toString());
         $jwtToken = JwtToken::where('unique_id','=',$bearerToken)->first();
         if($jwtToken!==null && $jwtToken->expires_at > Carbon::now()){
             $jwtToken->last_used_at = Carbon::now();
@@ -64,8 +63,17 @@ trait JwtTokenHelper{
         }else{
             return null;
         }
+    }
 
+    public function invalidateJwtToken($bearerToken){
 
+        $jwtToken = JwtToken::where('unique_id','=',$bearerToken)->first();
+        if($jwtToken!==null){
+            $jwtToken->delete();
+            return true;
+        }else{
+            return false;
+        }
     }
 
 }
