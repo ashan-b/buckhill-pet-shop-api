@@ -24,9 +24,8 @@ Route::get(
 Route::prefix('user')->group(
     function () {
         Route::post('/login', [UserController::class, 'login']);
+        Route::post('/create', [UserController::class, 'create']);
     }
-
-
 );
 
 Route::prefix('admin')->group(
