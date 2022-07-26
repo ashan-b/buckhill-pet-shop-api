@@ -21,6 +21,11 @@ class UserController extends Controller
     use ResponseGenerator;
 
     /**
+     *  @OA\Tag(
+     *     name="User",
+     *     description="User API endpoint"
+     * )
+     *
      * @OA\Post(
      *     path="/api/v1/user/create",
      *     summary="Create a User account",
