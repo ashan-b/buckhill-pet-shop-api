@@ -21,10 +21,60 @@ class AdminController extends Controller
     use JwtTokenHelper;
     use ResponseGenerator;
 
-    public function __construct()
-    {
-    }
 
+    /**
+     *  * @OA\Tag(
+     *     name="Admin",
+     *     description="Admin API endpoint"
+     * )
+     * /
+
+    /*
+     * @OA\Post(
+     *     path="/api/v1/admin/login",
+     *     summary="Login an Admin account",
+     *     tags={"Admin"},
+     *     @OA\RequestBody(
+     *     required=true,
+     *         @OA\MediaType(
+     *             mediaType="application/x-www-form-urlencoded",
+     *             @OA\Schema(
+     *                 required={"email","password"},
+     *                 @OA\Property(
+     *                     property="email",
+     *                     type="string",
+     *                     description="Admin email"
+     *                 ),
+     *                 @OA\Property(
+     *                     property="password",
+     *                     type="string",
+     *                     description="Admin password"
+     *                 ),
+     *             ),
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="OK"
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Unauthorized"
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Page not found"
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Unprocessable Entity"
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Internal server error"
+     *     )
+     * )
+     */
     public function login(AdminLoginRequest $request)
     {
         /*

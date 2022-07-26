@@ -23,7 +23,7 @@ Route::get(
 
 Route::prefix('user')->group(
     function () {
-        Route::get('/login', [UserController::class, 'login']);
+        Route::post('/login', [UserController::class, 'login']);
     }
 
 
@@ -31,7 +31,7 @@ Route::prefix('user')->group(
 
 Route::prefix('admin')->group(
     function () {
-        Route::get('/login', [AdminController::class, 'login']);
+        Route::post('/login', [AdminController::class, 'login']);
     }
 );
 
