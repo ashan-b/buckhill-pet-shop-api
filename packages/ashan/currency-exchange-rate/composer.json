@@ -1,0 +1,23 @@
+{
+    "name": "ashan/currency-exchange-rate",
+    "description": "Fetch exchange rate from European Central Bank",
+    "autoload": {
+        "psr-4": {
+            "Ashan\\CurrencyExchangeRate\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Ashan Beruwalage",
+            "email": "ashan-b@live.com"
+        }
+    ],
+    "require": {},
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Ashan\\CurrencyExchangeRate\\CurrencyExchangeRateServiceProvider"
+            ]
+        }
+    }
+}
