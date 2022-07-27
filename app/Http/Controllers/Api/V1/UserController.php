@@ -21,7 +21,7 @@ class UserController extends Controller
     use ResponseGenerator;
 
     /**
-     *  @OA\Tag(
+     * @OA\Tag(
      *     name="User",
      *     description="User API endpoint"
      * )
@@ -145,39 +145,39 @@ class UserController extends Controller
      *         description="Internal server error"
      *     )
      * )
-     **/
+     */
     public function create(UserCreateRequest $request)
     {
         $user = new User;
         $user->fill($request->all());
         $user->is_admin = false;
         $user->password = Hash::make($request->password);
-        $user->uuid = Str::uuid()->toString();;
+        $user->uuid = Str::uuid()->toString();
         $user->save();
 
         $token = $this->generateJwtToken($user);
 
         return $this->sendSuccess(
             [
-                'uuid'=>$user->uuid,
-                'first_name'=>$user->first_name,
-                'last_name'=>$user->last_name,
-                'email'=>$user->email,
-                'avatar'=>$user->avatar,
-                'address_title'=>$user->address_title,
-                'address_line_1'=>$user->address_line_1,
-                'address_line_2'=>$user->address_line_2,
-                'address_line_3'=>$user->address_line_3,
-                'address_line_4_city'=>$user->address_line_4_city,
-                'address_line_5_state'=>$user->address_line_5_state,
-                'address_line_6_zip'=>$user->address_line_6_zip,
-                'address_line_7_country'=>$user->address_line_7_country,
-                'phone_number_country_code'=>$user->phone_number_country_code,
-                'phone_number'=>$user->phone_number,
-                'is_marketing'=>$user->is_marketing,
-                'updated_at'=>$user->updated_at,
-                'created_at'=>$user->created_at,
-                'token'=>$token
+                'uuid' => $user->uuid,
+                'first_name' => $user->first_name,
+                'last_name' => $user->last_name,
+                'email' => $user->email,
+                'avatar' => $user->avatar,
+                'address_title' => $user->address_title,
+                'address_line_1' => $user->address_line_1,
+                'address_line_2' => $user->address_line_2,
+                'address_line_3' => $user->address_line_3,
+                'address_line_4_city' => $user->address_line_4_city,
+                'address_line_5_state' => $user->address_line_5_state,
+                'address_line_6_zip' => $user->address_line_6_zip,
+                'address_line_7_country' => $user->address_line_7_country,
+                'phone_number_country_code' => $user->phone_number_country_code,
+                'phone_number' => $user->phone_number,
+                'is_marketing' => $user->is_marketing,
+                'updated_at' => $user->updated_at,
+                'created_at' => $user->created_at,
+                'token' => $token
             ]
         );
     }
@@ -228,7 +228,7 @@ class UserController extends Controller
      *         description="Internal server error"
      *     )
      * )
-     **/
+     */
     public function login(UserLoginRequest $request)
     {
         /*
@@ -251,9 +251,8 @@ class UserController extends Controller
             }
 
             return $this->sendSuccess(["token" => $token]);
-        } else {
-            return $this->sendError("Failed to authenticate user", [], null, 422);
         }
+        return $this->sendError("Failed to authenticate user", [], null, 422);
     }
 
 
@@ -284,17 +283,17 @@ class UserController extends Controller
      *         description="Internal server error"
      *     )
      * )
-     **/
+     */
     public function logout(UserLogoutRequest $request)
     {
         $bearerToken = $request->bearerToken();
         $tokenInvalidated = $this->invalidateJwtToken($bearerToken);
 
-        if ($tokenInvalidated == true) {
+        if ($tokenInvalidated === true) {
             return $this->sendSuccess([]);
-        } else {
-            return $this->sendError("Invalid token.", [], null, 422);
         }
+
+        return $this->sendError("Invalid token.", [], null, 422);
     }
 
 }
