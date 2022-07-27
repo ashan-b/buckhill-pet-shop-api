@@ -6,7 +6,7 @@ use http\Env\Response;
 
 class CurrencyExchangeRate
 {
-    public static function event(float $amount, string $foreignCurrency)
+    public static function convert(float $amount, string $foreignCurrency)
     {
         try {
             if ($amount <= 0.0) {
