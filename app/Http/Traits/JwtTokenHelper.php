@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Traits;
 
 use App\Models\JwtToken;
@@ -9,9 +10,11 @@ use Lcobucci\JWT\Configuration;
 use Lcobucci\JWT\Signer\Key\InMemory;
 use Lcobucci\JWT\Signer;
 
-trait JwtTokenHelper{
+trait JwtTokenHelper
+{
 
-    public function generateJwtToken(User $user){
+    public function generateJwtToken(User $user)
+    {
         $privateKeyPath = env("JWT_PRIVATE_KEY_PATH");
         $publicKeyPath = env("JWT_PUBLIC_KEY_PATH");
 
@@ -32,18 +35,19 @@ trait JwtTokenHelper{
             ->getToken($config->signer(), $config->signingKey());
 
         $jwtToken = new JwtToken;
-        $jwtToken->user_id=$user->id;
-        $jwtToken->unique_id=$token->toString();
-        $jwtToken->token_title="API";
-        $jwtToken->restrictions=[];
-        $jwtToken->permissions=[];
-        $jwtToken->expires_at=$expiresAt;
+        $jwtToken->user_id = $user->id;
+        $jwtToken->unique_id = $token->toString();
+        $jwtToken->token_title = "API";
+        $jwtToken->restrictions = [];
+        $jwtToken->permissions = [];
+        $jwtToken->expires_at = $expiresAt;
         $jwtToken->save();
 
         return $token->toString();
     }
 
-    public function validateJwtToken($bearerToken){
+    public function validateJwtToken($bearerToken)
+    {
         $privateKeyPath = env("JWT_PRIVATE_KEY_PATH");
         $publicKeyPath = env("JWT_PUBLIC_KEY_PATH");
 
@@ -55,25 +59,23 @@ trait JwtTokenHelper{
 
         $parsedJwtToken = $config->parser()->parse($bearerToken);
 
-        $jwtToken = JwtToken::where('unique_id','=',$bearerToken)->first();
-        if($jwtToken!==null && $jwtToken->expires_at > Carbon::now()){
+        $jwtToken = JwtToken::where('unique_id', '=', $bearerToken)->first();
+        if ($parsedJwtToken != null && $jwtToken !== null && $jwtToken->expires_at > Carbon::now()) {
             $jwtToken->last_used_at = Carbon::now();
             $jwtToken->save();
             return $jwtToken;
-        }else{
-            return null;
         }
+        return null;
     }
 
-    public function invalidateJwtToken($bearerToken){
-
-        $jwtToken = JwtToken::where('unique_id','=',$bearerToken)->first();
-        if($jwtToken!==null){
+    public function invalidateJwtToken($bearerToken)
+    {
+        $jwtToken = JwtToken::where('unique_id', '=', $bearerToken)->first();
+        if ($jwtToken !== null) {
             $jwtToken->delete();
             return true;
-        }else{
-            return false;
         }
+        return false;
     }
 
 }

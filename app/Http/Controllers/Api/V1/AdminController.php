@@ -127,7 +127,7 @@ class AdminController extends Controller
      *         description="Internal server error"
      *     )
      * )
-     **/
+     */
     public function logout(AdminLogoutRequest $request)
     {
         $bearerToken = $request->bearerToken();

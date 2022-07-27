@@ -40,7 +40,7 @@ Route::group(
         'middleware' => 'jwt_verification',
         'prefix' => 'user'
     ],
-    function ($router) {
+    function () {
         Route::get('/logout', [UserController::class, 'logout']);
     }
 );
@@ -50,7 +50,7 @@ Route::group(
         'middleware' => 'jwt_verification',
         'prefix' => 'admin'
     ],
-    function ($router) {
+    function () {
         Route::get('/logout', [AdminController::class, 'logout']);
     }
 );

@@ -21,7 +21,7 @@ trait ResponseGenerator
         );
     }
 
-    public function sendError($error,$errors=[], $trace, $httpStatusCode=200)
+    public function sendError($error,$errors, $trace, $httpStatusCode=200)
     {
         return Response::json(
             [

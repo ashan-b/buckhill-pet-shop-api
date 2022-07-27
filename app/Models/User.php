@@ -147,6 +147,6 @@ class User extends Authenticatable
      */
     public function jwtTokens()
     {
-        return $this->hasMany('App\Models\JwtToken');
+        return $this->hasMany(JwtToken::class);
     }
 }
