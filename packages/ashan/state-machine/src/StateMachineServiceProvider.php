@@ -2,7 +2,6 @@
 
 namespace Ashan\StateMachine;
 
-use App\Http\Controllers\CurrencyExchangeRateController;
 use Illuminate\Support\ServiceProvider;
 
 class StateMachineServiceProvider extends ServiceProvider
