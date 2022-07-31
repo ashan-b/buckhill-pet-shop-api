@@ -137,4 +137,17 @@ trait StateMachine
         return true;
     }
 
+    public function can(string $nextTransition)
+    {
+        $nextTransitions = $this->getNextTransitions();
+        $transitionState = array_filter(
+            $nextTransitions,
+            function ($e) use ($nextTransition) {
+                return (property_exists($e, 'name') && $e->getName() == $nextTransition);
+            }
+        );
+
+        return !empty($transitionState);
+    }
+
 }
