@@ -74,4 +74,20 @@ trait StateMachine
         $this->setCurrentState(head($stateT));
     }
 
+    public function setCurrentStateByStateTitle($title)
+    {
+        $stateT = array_filter(
+            $this->graph->states,
+            function ($e) use ($title) {
+                return (
+                    property_exists($e, 'title')
+                    &&
+                    $e->title ==
+                    $title);
+            }
+        );
+
+        $this->setCurrentState(head($stateT));
+    }
+
 }
