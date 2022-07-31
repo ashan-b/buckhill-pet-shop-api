@@ -58,4 +58,20 @@ trait StateMachine
         $this->{$this->property_path} = $state;
     }
 
+    public function setCurrentStateByStatePrimaryKey($primaryKey)
+    {
+        $stateT = array_filter(
+            $this->graph->states,
+            function ($e) use ($primaryKey) {
+                return (
+                    property_exists($e, $this->primaryKeyName)
+                    &&
+                    $e->{$this->primaryKeyName} ==
+                    $primaryKey);
+            }
+        );
+
+        $this->setCurrentState(head($stateT));
+    }
+
 }
