@@ -2,9 +2,7 @@
 
 namespace App\Models;
 
-use Ashan\StateMachine\Models\State;
 use Ashan\StateMachine\Traits\StateMachine;
-use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -58,5 +56,15 @@ class Order extends Model
     ];
 
     protected $appends = ['order_status_state'];
+
+    public function setOrderStatusStateAttribute($orderStatusState)
+    {
+        $this->orderStatusState = $orderStatusState;
+        $orderStatus = OrderStatus::where(
+            $this->primaryKeyName,
+            $orderStatusState->getMetadata()->{$this->getPrimaryKeyName()}
+        )->first();
+        $this->attributes['order_status_id'] = $orderStatus->id;
+    }
 
 }
