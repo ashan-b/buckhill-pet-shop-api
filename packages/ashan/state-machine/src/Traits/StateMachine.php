@@ -95,4 +95,30 @@ trait StateMachine
         return $this->{$this->property_path};
     }
 
+    public function getNextTransitions()
+    {
+        $availableTransitionsState = $this->graph->transitions->{$this->getCurrentState()->getName()}[0];
+        $availableTransitions = $availableTransitionsState->to;
+
+        $availableTransitionsArray = [];
+        foreach ($availableTransitions as $availableTransition) {
+            $transitionState = array_filter(
+                $this->graph->states,
+                function ($e) use ($availableTransition) {
+                    return (property_exists($e, 'title') && $e->title == $availableTransition);
+                }
+            );
+            $transitionName = $this->getCurrentState()->getName() . "_to_" . $availableTransition;
+
+            $transition = new Transition();
+            $transition->setName($transitionName);
+            $transition->setMetadata($availableTransitionsState);
+            $transition->setInitialStateName($this->getCurrentState()->getName());
+            $transition->setResultingStateName($availableTransition);
+
+            $availableTransitionsArray[$transitionName] = $transition;
+        }
+        return $availableTransitionsArray;
+    }
+
 }
