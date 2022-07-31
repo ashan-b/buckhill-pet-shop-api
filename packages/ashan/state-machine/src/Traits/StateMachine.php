@@ -90,4 +90,9 @@ trait StateMachine
         $this->setCurrentState(head($stateT));
     }
 
+    public function getCurrentState()
+    {
+        return $this->{$this->property_path};
+    }
+
 }
