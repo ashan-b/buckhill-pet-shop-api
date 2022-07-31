@@ -2,12 +2,18 @@
 
 namespace App\Models;
 
+use Ashan\StateMachine\Models\State;
+use Ashan\StateMachine\Traits\StateMachine;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Order extends Model
 {
     use HasFactory;
+    use StateMachine;
+
+    private $orderStatusState;
 
     /**
      * The attributes that are mass assignable.
@@ -50,4 +56,7 @@ class Order extends Model
         'amount' => 'double',
         'shipped_at' => 'datetime'
     ];
+
+    protected $appends = ['order_status_state'];
+
 }
