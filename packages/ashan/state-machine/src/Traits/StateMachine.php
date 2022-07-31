@@ -121,4 +121,20 @@ trait StateMachine
         return $availableTransitionsArray;
     }
 
+    public function process($nextTransition)
+    {
+        if (!$this->can($nextTransition)) {
+            return false;
+        }
+        $nextTransitions = $this->getNextTransitions();
+        $transitionState = array_filter(
+            $nextTransitions,
+            function ($e) use ($nextTransition) {
+                return (property_exists($e, 'name') && $e->getName() == $nextTransition);
+            }
+        );
+        $this->setCurrentStateByStateTitle(head($transitionState)->getResultingStateName());
+        return true;
+    }
+
 }
