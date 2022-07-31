@@ -46,4 +46,10 @@ trait StateMachine
         }
     }
 
+    private function setCurrentState($stateObject)
+    {
+        $state = new State($stateObject->title, $stateObject);
+        $this->{$this->property_path} = $state;
+    }
+
 }
