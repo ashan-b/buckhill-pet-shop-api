@@ -24,8 +24,8 @@ return new class extends Migration
             $table->timestamps();
 
             $table->foreignId('user_id')->constrained();
-            $table->foreignId('order_status_id')->constrained()->nullable();
-            $table->foreignId('payment_id')->constrained()->nullable();
+            $table->foreignId('order_status_id')->nullable()->constrained();
+            $table->foreignId('payment_id')->nullable()->constrained();
         });
     }
 
