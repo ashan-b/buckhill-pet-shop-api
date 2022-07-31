@@ -29,6 +29,6 @@ class UserLoginTest extends TestCase
             [
                 'success' => true
             ]
-        );;
+        );
     }
 }
