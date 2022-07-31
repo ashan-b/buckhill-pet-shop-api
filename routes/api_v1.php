@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\V1\UserController;
 use App\Http\Controllers\Api\V1\AdminController;
+use App\Http\Controllers\Api\V1\OrderController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,6 +21,8 @@ Route::get(
         return "Hi";
     }
 );
+
+Route::get('/testState', [OrderController::class, 'testState']);
 
 Route::prefix('user')->group(
     function () {
