@@ -36,6 +36,9 @@ trait StateMachine
                         $this->{$this->property_path}->getMetadata()->{$this->primaryKeyName});
                 }
             );
+            if ($state !== null) {
+                $this->setCurrentState(head($state));
+            }
         } else {
             $defaultStateObject = array_filter(
                 $graph->states,
@@ -43,6 +46,9 @@ trait StateMachine
                     return (property_exists($e, 'initial') && $e->initial == true);
                 }
             );
+            if ($defaultStateObject !== null) {
+                $this->setCurrentState($defaultStateObject[0]);
+            }
         }
     }
 
