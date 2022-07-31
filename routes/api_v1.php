@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\V1\UserController;
 use App\Http\Controllers\Api\V1\AdminController;
+use App\Http\Controllers\Api\V1\OrderController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,12 +22,13 @@ Route::get(
     }
 );
 
+Route::get('/testState', [OrderController::class, 'testState']);
+
 Route::prefix('user')->group(
     function () {
         Route::post('/login', [UserController::class, 'login']);
+        Route::post('/create', [UserController::class, 'create']);
     }
-
-
 );
 
 Route::prefix('admin')->group(
@@ -41,7 +43,7 @@ Route::group(
         'middleware' => 'jwt_verification',
         'prefix' => 'user'
     ],
-    function ($router) {
+    function () {
         Route::get('/logout', [UserController::class, 'logout']);
     }
 );
@@ -51,7 +53,7 @@ Route::group(
         'middleware' => 'jwt_verification',
         'prefix' => 'admin'
     ],
-    function ($router) {
+    function () {
         Route::get('/logout', [AdminController::class, 'logout']);
     }
 );

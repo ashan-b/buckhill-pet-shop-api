@@ -3,6 +3,22 @@
     "type": "project",
     "description": "The Laravel Framework.",
     "keywords": ["framework", "laravel"],
+    "repositories": {
+        "currency-exchange-rate": {
+            "type": "path",
+            "url": "packages/ashan/currency-exchange-rate",
+            "options": {
+                "symlink": true
+            }
+        },
+        "state-machine": {
+            "type": "path",
+            "url": "packages/ashan/state-machine",
+            "options": {
+                "symlink": true
+            }
+        }
+    },
     "license": "MIT",
     "require": {
         "php": "^8.0.2",
@@ -12,7 +28,9 @@
         "laravel/framework": "^9.19",
         "laravel/sanctum": "^2.14.1",
         "laravel/tinker": "^2.7",
-        "lcobucci/jwt": "^4.0"
+        "lcobucci/jwt": "^4.0",
+        "ashan/currency-exchange-rate": "@dev",
+        "ashan/state-machine": "@dev"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^2.12",
@@ -21,6 +39,7 @@
         "laravel/sail": "^1.0.1",
         "mockery/mockery": "^1.4.4",
         "nunomaduro/collision": "^6.1",
+        "nunomaduro/phpinsights": "^2.4",
         "phpunit/phpunit": "^9.5.10",
         "spatie/laravel-ignition": "^1.0"
     },
@@ -61,7 +80,10 @@
     "config": {
         "optimize-autoloader": true,
         "preferred-install": "dist",
-        "sort-packages": true
+        "sort-packages": true,
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        }
     },
     "minimum-stability": "dev",
     "prefer-stable": true
