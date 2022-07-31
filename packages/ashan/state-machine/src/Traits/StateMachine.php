@@ -2,6 +2,9 @@
 
 namespace Ashan\StateMachine\Traits;
 
+use Ashan\StateMachine\Models\State;
+use Ashan\StateMachine\Models\Transition;
+
 trait StateMachine
 {
     protected $config = [];
