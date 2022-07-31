@@ -6,37 +6,46 @@ use App\Models\JwtToken;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use Lcobucci\JWT\Configuration;
 use Lcobucci\JWT\Signer\Key\InMemory;
 use Lcobucci\JWT\Signer;
 
 trait JwtTokenHelper
 {
+    private $config;
 
-    public function generateJwtToken(User $user)
+    public function __construct()
     {
         $privateKeyPath = env("JWT_PRIVATE_KEY_PATH");
         $publicKeyPath = env("JWT_PUBLIC_KEY_PATH");
 
-        $config = Configuration::forAsymmetricSigner(
+        $this->config = Configuration::forAsymmetricSigner(
             new Signer\Rsa\Sha256(),
             InMemory::file(base_path($privateKeyPath)),
             InMemory::file(base_path($publicKeyPath))
         );
+    }
+
+    public function generateJwtToken(User $user)
+    {
 
         $now = new \DateTimeImmutable();
         $expiresAt = $now->modify('+1 day');
 
-        $token = $config->builder()
+        $unique_id= Str::uuid()->toString();
+
+        $token = $this->config->builder()
             ->issuedBy(request()->root())
             ->withClaim('user_uuid', $user->uuid)
+            ->withClaim('unique_id', $unique_id)
             ->issuedAt($now)
             ->expiresAt($expiresAt)
-            ->getToken($config->signer(), $config->signingKey());
+            ->getToken($this->config->signer(), $this->config->signingKey());
 
         $jwtToken = new JwtToken;
         $jwtToken->user_id = $user->id;
-        $jwtToken->unique_id = $token->toString();
+        $jwtToken->unique_id = $unique_id;
         $jwtToken->token_title = "API";
         $jwtToken->restrictions = [];
         $jwtToken->permissions = [];
@@ -48,18 +57,12 @@ trait JwtTokenHelper
 
     public function validateJwtToken($bearerToken)
     {
-        $privateKeyPath = env("JWT_PRIVATE_KEY_PATH");
-        $publicKeyPath = env("JWT_PUBLIC_KEY_PATH");
 
-        $config = Configuration::forAsymmetricSigner(
-            new Signer\Rsa\Sha256(),
-            InMemory::file(base_path($privateKeyPath)),
-            InMemory::file(base_path($publicKeyPath))
-        );
+        $parsedJwtToken = $this->config->parser()->parse($bearerToken);
 
-        $parsedJwtToken = $config->parser()->parse($bearerToken);
+        $unique_id = $parsedJwtToken->claims()->get('unique_id');
 
-        $jwtToken = JwtToken::where('unique_id', '=', $bearerToken)->first();
+        $jwtToken = JwtToken::where('unique_id', $unique_id)->first();
         if ($parsedJwtToken != null && $jwtToken !== null && $jwtToken->expires_at > Carbon::now()) {
             $jwtToken->last_used_at = Carbon::now();
             $jwtToken->save();
@@ -70,7 +73,9 @@ trait JwtTokenHelper
 
     public function invalidateJwtToken($bearerToken)
     {
-        $jwtToken = JwtToken::where('unique_id', '=', $bearerToken)->first();
+        $parsedJwtToken = $this->config->parser()->parse($bearerToken);
+        $unique_id = $parsedJwtToken->claims()->get('unique_id');
+        $jwtToken = JwtToken::where('unique_id',  $unique_id)->first();
         if ($jwtToken !== null) {
             $jwtToken->delete();
             return true;
