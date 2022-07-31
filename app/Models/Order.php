@@ -57,6 +57,21 @@ class Order extends Model
 
     protected $appends = ['order_status_state'];
 
+    public function getOrderStatusStateAttribute()
+    {
+        if ($this->orderStatusState != null) {
+            return $this->orderStatusState;
+        }
+
+        $order_status_id = $this->attributes['order_status_id'];
+        if ($order_status_id !== null) {
+            $orderStatus = OrderStatus::find($order_status_id);
+            $this->setCurrentStateByStatePrimaryKey($orderStatus->{$this->primaryKeyName});
+        }
+
+        return $this->orderStatusState;
+    }
+
     public function setOrderStatusStateAttribute($orderStatusState)
     {
         $this->orderStatusState = $orderStatusState;
