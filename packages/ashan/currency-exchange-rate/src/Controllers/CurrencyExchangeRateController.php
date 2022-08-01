@@ -7,6 +7,58 @@ use Illuminate\Http\Request;
 
 class CurrencyExchangeRateController extends Controller
 {
+    /**
+     * @OA\Tag(
+     *     name="Currency Exchange Rate - Package",
+     *     description=""
+     * )
+     *
+     * @OA\Get(
+     *     path="/currency-exchange",
+     *     summary="Convert Currency",
+     *     tags={"Currency Exchange Rate - Package"},
+    * @OA\Parameter(
+     *     in="query",
+     *     name="amount",
+     *     description="Amount to be converted.",
+     *     required=true,
+     *     example="100"
+     * ),
+     *   @OA\Parameter(
+     *     in="query",
+     *     name="currency",
+     *     description="Currency code.",
+     *     required=true,
+     *     example="SGD"
+     * ),
+     *     @OA\Parameter(
+     *     in="query",
+     *     name="base_currency",
+     *     description="Base Currency code. Defaults to EUR.",
+     *     required=false
+     * ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="OK"
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Unauthorized"
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Page not found"
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Unprocessable Entity"
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Internal server error"
+     *     )
+     * )
+     */
     public function convert(Request $request)
     {
         $amount = $request->get('amount',0.0);
