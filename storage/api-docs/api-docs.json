@@ -288,6 +288,54 @@
                     }
                 ]
             }
+        },
+        "/currency-exchange": {
+            "get": {
+                "tags": [
+                    "Currency Exchange Rate - Package"
+                ],
+                "summary": "Convert Currency",
+                "operationId": "8af0a88afa9a1848d2c442caf7022f0a",
+                "parameters": [
+                    {
+                        "name": "amount",
+                        "in": "query",
+                        "description": "Amount to be converted.",
+                        "required": true,
+                        "example": "100"
+                    },
+                    {
+                        "name": "currency",
+                        "in": "query",
+                        "description": "Currency code.",
+                        "required": true,
+                        "example": "SGD"
+                    },
+                    {
+                        "name": "base_currency",
+                        "in": "query",
+                        "description": "Base Currency code. Defaults to EUR.",
+                        "required": false
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "404": {
+                        "description": "Page not found"
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            }
         }
     },
     "components": {
@@ -309,6 +357,10 @@
         {
             "name": "User",
             "description": "User API endpoint"
+        },
+        {
+            "name": "Currency Exchange Rate - Package",
+            "description": ""
         }
     ]
 }
