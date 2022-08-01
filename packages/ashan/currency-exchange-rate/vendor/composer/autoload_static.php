@@ -32,6 +32,7 @@ class ComposerStaticInitde43b2124d624e885362b47f654de7eb
         ),
         'A' => 
         array (
+            'Ashan\\CurrencyExchangeRate\\Tests\\' => 33,
             'Ashan\\CurrencyExchangeRate\\' => 27,
         ),
     );
@@ -40,8 +41,8 @@ class ComposerStaticInitde43b2124d624e885362b47f654de7eb
         'phpDocumentor\\Reflection\\' => 
         array (
             0 => __DIR__ . '/..' . '/phpdocumentor/reflection-common/src',
-            1 => __DIR__ . '/..' . '/phpdocumentor/type-resolver/src',
-            2 => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src',
+            1 => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src',
+            2 => __DIR__ . '/..' . '/phpdocumentor/type-resolver/src',
         ),
         'Webmozart\\Assert\\' => 
         array (
@@ -62,6 +63,10 @@ class ComposerStaticInitde43b2124d624e885362b47f654de7eb
         'DeepCopy\\' => 
         array (
             0 => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy',
+        ),
+        'Ashan\\CurrencyExchangeRate\\Tests\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/tests',
         ),
         'Ashan\\CurrencyExchangeRate\\' => 
         array (
