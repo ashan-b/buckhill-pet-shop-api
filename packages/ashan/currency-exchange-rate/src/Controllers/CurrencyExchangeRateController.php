@@ -5,6 +5,9 @@ namespace Ashan\CurrencyExchangeRate\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
+//Load the CURRENCY_EXCHANGE_URL from env to use it in swagger annotation
+define("CURRENCY_EXCHANGE_URL", env('CURRENCY_EXCHANGE_URL', '/currency-exchange'));
+
 class CurrencyExchangeRateController extends Controller
 {
     /**
@@ -14,7 +17,7 @@ class CurrencyExchangeRateController extends Controller
      * )
      *
      * @OA\Get(
-     *     path="/currency-exchange",
+     *     path=CURRENCY_EXCHANGE_URL,
      *     summary="Convert Currency",
      *     tags={"Currency Exchange Rate - Package"},
      * @OA\Parameter(
