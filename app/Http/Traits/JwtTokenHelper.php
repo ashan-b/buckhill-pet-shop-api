@@ -93,4 +93,10 @@ trait JwtTokenHelper
         return false;
     }
 
+    public function parseJwtToken($bearerToken)
+    {
+        $config = $this->getConfig();
+        return $config->parser()->parse($bearerToken);
+    }
+
 }
