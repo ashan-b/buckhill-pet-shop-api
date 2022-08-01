@@ -8,6 +8,7 @@ use App\Models\JwtToken;
 use Carbon\Carbon;
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Log;
 use Lcobucci\JWT\Configuration;
 
@@ -23,7 +24,7 @@ class JwtMiddleware
      * @param \Closure(\Illuminate\Http\Request): (\Illuminate\Http\Response|\Illuminate\Http\RedirectResponse)  $next
      * @return \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse
      */
-    public function handle(Request $request, Closure $next)
+    public function handle(Request $request, Closure $next, ...$roles)
     {
         try {
             $bearerToken = $request->bearerToken();
@@ -32,15 +33,23 @@ class JwtMiddleware
                 return $this->sendError("Auth token not found.", [], [], 401);
             }
 
-            $jwtToken = $this->validateJwtToken($bearerToken);
+            $jwtToken = $this->parseJwtToken($bearerToken);
 
             if ($jwtToken !== null) {
-                return $next($request);
-            }
+                $is_admin = $jwtToken->claims()->get('is_admin');
 
-            return $this->sendError("Invalid auth token.", [], [], 401);
+                if ($is_admin==true && in_array("ADMIN", $roles)) {
+                    return $next($request);
+                }else if($is_admin==false && in_array("USER", $roles)){
+                    return $next($request);
+                }else{
+                    return $this->sendError("Forbidden.", [], [], 403);
+                }
+            }else{
+                return $this->sendError("Unauthorized.", [], [], 401);
+            }
         } catch (\Exception $e) {
-            return $this->sendError($e->getMessage(), [], $e->getTrace(), 422);
+            return $this->sendError($e->getMessage(), [], App::hasDebugModeEnabled()?$e->getTrace():[], 422);
         }
     }
 }
