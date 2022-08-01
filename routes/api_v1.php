@@ -40,7 +40,7 @@ Route::prefix('admin')->group(
 
 Route::group(
     [
-        'middleware' => 'jwt_verification',
+        'middleware' => ['jwt_verification:USER','xss'],
         'prefix' => 'user'
     ],
     function () {
@@ -50,9 +50,10 @@ Route::group(
 
 Route::group(
     [
-        'middleware' => 'jwt_verification',
+        'middleware' => ['jwt_verification:ADMIN','xss'],
         'prefix' => 'admin'
     ],
+
     function () {
         Route::get('/logout', [AdminController::class, 'logout']);
     }
