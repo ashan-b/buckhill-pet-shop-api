@@ -17,7 +17,7 @@ class CurrencyExchangeRateController extends Controller
      *     path="/currency-exchange",
      *     summary="Convert Currency",
      *     tags={"Currency Exchange Rate - Package"},
-    * @OA\Parameter(
+     * @OA\Parameter(
      *     in="query",
      *     name="amount",
      *     description="Amount to be converted.",
@@ -61,9 +61,9 @@ class CurrencyExchangeRateController extends Controller
      */
     public function convert(Request $request)
     {
-        $amount = $request->get('amount',0.0);
+        $amount = $request->get('amount', 0.0);
         $from = $request->get('base_currency', config('currency_exchange_rate.base_currency', 'EUR'));
-        $to = $request->get('currency','');
+        $to = $request->get('currency', '');
 
         return $this->convertCurrency($amount, $from, $to);
     }
