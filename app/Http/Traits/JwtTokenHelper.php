@@ -47,6 +47,7 @@ trait JwtTokenHelper
             ->issuedBy(request()->root())
             ->withClaim('user_uuid', $user->uuid)
             ->withClaim('unique_id', $unique_id)
+            ->withClaim('is_admin', $user->is_admin)
             ->issuedAt($now)
             ->expiresAt($expiresAt)
             ->getToken($config->signer(), $config->signingKey());
