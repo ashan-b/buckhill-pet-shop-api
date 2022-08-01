@@ -3,7 +3,8 @@
     "description": "Fetch exchange rate from European Central Bank",
     "autoload": {
         "psr-4": {
-            "Ashan\\CurrencyExchangeRate\\": "src/"
+            "Ashan\\CurrencyExchangeRate\\": "src/",
+            "Ashan\\CurrencyExchangeRate\\Tests\\": "tests/"
         }
     },
     "authors": [
