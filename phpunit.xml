@@ -17,6 +17,12 @@
         <testsuite name="CurrencyExchangeRatePackageFeature">
             <directory suffix="Test.php">./vendor/ashan/currency-exchange-rate/tests/Feature</directory>
         </testsuite>
+        <testsuite name="StateMachinePackageUnit">
+            <directory suffix="Test.php">./vendor/ashan/state-machine/tests/Unit</directory>
+        </testsuite>
+        <testsuite name="StateMachinePackageFeature">
+            <directory suffix="Test.php">./vendor/ashan/state-machine/tests/Feature</directory>
+        </testsuite>
     </testsuites>
     <coverage processUncoveredFiles="true">
         <include>
