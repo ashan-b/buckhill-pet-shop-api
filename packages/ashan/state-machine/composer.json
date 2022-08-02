@@ -13,12 +13,14 @@
             "email": "ashan-b@live.com"
         }
     ],
-    "require": {},
     "extra": {
         "laravel": {
             "providers": [
                 "Ashan\\StateMachine\\StateMachineServiceProvider"
             ]
         }
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.5"
     }
 }
