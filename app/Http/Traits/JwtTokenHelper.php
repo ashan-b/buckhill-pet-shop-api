@@ -100,4 +100,11 @@ trait JwtTokenHelper
         return $config->parser()->parse($bearerToken);
     }
 
+    public function getUserUuid($request)
+    {
+        $config = $this->getConfig();
+        $parsedJwtToken = $config->parser()->parse($request->bearerToken());
+        return $parsedJwtToken->claims()->get('user_uuid');
+    }
+
 }
