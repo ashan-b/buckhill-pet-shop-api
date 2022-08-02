@@ -75,3 +75,22 @@ docker run -d -p 80:80 app:latest
 ```
 
 once you run above command go to http://localhost
+
+
+##Setup
+docker-compose up -d --build site.
+
+nginx - :80
+mysql - :3306
+php - :9000
+
+
+docker-compose run --rm composer update
+docker-compose run --rm npm run dev
+docker-compose run --rm artisan migrate
+docker-compose run --rm artisan migrate:fresh --seed
+
+docker-compose run --rm artisan test
+
+
+docker-compose down
