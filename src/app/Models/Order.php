@@ -85,17 +85,17 @@ class Order extends Model
 
     public function user()
     {
-        return $this->hasOne(User::class, 'user_uuid', 'uuid');
+        return $this->hasOne(User::class, 'uuid', 'user_uuid');
     }
 
     public function orderStatus()
     {
-        return $this->hasOne(OrderStatus::class, 'order_status_uuid', 'uuid');
+        return $this->hasOne(OrderStatus::class, 'uuid', 'order_status_uuid');
     }
 
     public function payment()
     {
-        return $this->hasOne(Payment::class, 'payment_uuid', 'uuid');
+        return $this->hasOne(Payment::class, 'uuid', 'payment_uuid');
     }
 
 }
