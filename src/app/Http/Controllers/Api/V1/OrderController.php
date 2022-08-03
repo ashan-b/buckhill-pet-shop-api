@@ -21,6 +21,67 @@ class OrderController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    /**
+     * @OA\Tag(
+     *     name="Orders",
+     *     description="Orders API endpoint"
+     * )
+     *
+     * @OA\Get(
+     *     path="/api/v1/orders",
+     *     summary="List all orders",
+     *     tags={"Orders"},
+     * @OA\Parameter(
+     *     in="query",
+     *     name="page",
+     *      @OA\Schema(
+     *          type="integer"
+     *      )
+     * ),
+     *   @OA\Parameter(
+     *     in="query",
+     *     name="limit",
+     *      @OA\Schema(
+     *          type="integer"
+     *      )
+     * ),
+     *     @OA\Parameter(
+     *     in="query",
+     *     name="sortBy",
+     *      @OA\Schema(
+     *          type="integer"
+     *      )
+     * ),
+     *     @OA\Parameter(
+     *     in="query",
+     *     name="desc",
+     *      @OA\Schema(
+     *          type="boolean"
+     *      )
+     * ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="OK"
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Unauthorized"
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Page not found"
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Unprocessable Entity"
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Internal server error"
+     *     )
+     * )
+     */
     public function index(OrderIndexRequest $request)
     {
         $limit =$request->get('limit',15);
@@ -40,10 +101,6 @@ class OrderController extends Controller
      */
 
     /**
-     * @OA\Tag(
-     *     name="Orders",
-     *     description="Orders API endpoint"
-     * )
      *
      * @OA\Post(
      *     path="/api/v1/order/create",
