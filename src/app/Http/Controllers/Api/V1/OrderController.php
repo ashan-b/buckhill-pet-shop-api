@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\V1\OrderController\OrderCreateRequest;
+use App\Http\Requests\Api\V1\OrderController\OrderIndexRequest;
 use App\Http\Traits\JwtTokenHelper;
 use App\Http\Traits\ResponseGenerator;
 use App\Models\Order;
@@ -20,10 +21,13 @@ class OrderController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(OrderIndexRequest $request)
     {
+        $limit =$request->get('limit',15);
+        $sortBy = $request->get('sortBy','id');
+        $desc = $request->boolean('desc',false);
 
-        return Order::paginate(15);
+        return (Order::with(['user','orderStatus','payment'])->orderBy($sortBy,$desc==true?'DESC':'ASC')->paginate($limit));
     }
 
     /**
