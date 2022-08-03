@@ -49,7 +49,7 @@ class Order extends Model
         'address' => 'array',
         'user_uuid' => 'string',
         'order_status_uuid' => 'string',
-        'payment_id' => 'string',
+        'payment_uuid' => 'string',
         'delivery_fee' => 'double',
         'amount' => 'double',
         'shipped_at' => 'datetime'
@@ -80,6 +80,22 @@ class Order extends Model
             $orderStatusState->getMetadata()->{$this->getPrimaryKeyName()}
         )->first();
         $this->attributes['order_status_uuid'] = $orderStatus->{$this->primaryKeyName};
+    }
+
+
+    public function user()
+    {
+        return $this->hasOne(User::class, 'user_uuid', 'uuid');
+    }
+
+    public function orderStatus()
+    {
+        return $this->hasOne(OrderStatus::class, 'order_status_uuid', 'uuid');
+    }
+
+    public function payment()
+    {
+        return $this->hasOne(Payment::class, 'payment_uuid', 'uuid');
     }
 
 }
