@@ -16,6 +16,7 @@ class UserSeeder extends Seeder
     {
         \App\Models\User::factory()->create(
             [
+                'uuid' => "3ce8dd8d-0416-300b-bf11-e02d37b6c34d",
                 'email' => 'user@gmail.com',
                 'is_admin' => false
             ]

@@ -71,7 +71,7 @@ class Product extends Model
         'category_uuid' => 'string',
         'price' => 'double',
         'description' => 'string',
-        'metadata' => 'string',
+        'metadata' => 'array',
     ];
 
 
