@@ -32,6 +32,7 @@ class OrderController extends Controller
      *     path="/api/v1/orders",
      *     summary="List all orders",
      *     tags={"Orders"},
+     *     security={{"bearerAuth":{}}},
      * @OA\Parameter(
      *     in="query",
      *     name="page",
