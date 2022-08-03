@@ -23,6 +23,7 @@ Route::get(
 );
 
 Route::get('/orders', [OrderController::class, 'index']);
+Route::get('/order/{uuid}/download', [OrderController::class, 'download']);
 
 Route::get('/testState', [OrderController::class, 'testState']);
 

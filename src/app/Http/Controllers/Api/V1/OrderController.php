@@ -250,4 +250,13 @@ class OrderController extends Controller
 ////        dd($order->apply("state_1"));
 //        dd($order->can("state_1"));
     }
+
+    public function download(Request $request, $uuid)
+    {
+        $order = Order::where('uuid',$uuid)->first();
+        if($order==null){
+            abort(404);
+        }
+        dd($order);
+    }
 }
