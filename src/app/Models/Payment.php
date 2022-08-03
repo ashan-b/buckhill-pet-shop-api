@@ -39,4 +39,8 @@ class Payment extends Model
         'details' => 'array'
     ];
 
+    public function order()
+    {
+        return $this->belongsTo(Order::class, 'uuid', 'payment_uuid');
+    }
 }

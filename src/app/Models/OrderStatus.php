@@ -36,5 +36,10 @@ class OrderStatus extends Model
         'uuid' => 'string',
         'title' => 'string'
     ];
-    
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class,'uuid','order_uuid');
+    }
+
 }
