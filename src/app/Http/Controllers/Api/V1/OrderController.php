@@ -27,7 +27,9 @@ class OrderController extends Controller
         $sortBy = $request->get('sortBy','id');
         $desc = $request->boolean('desc',false);
 
-        return (Order::with(['user','orderStatus','payment'])->orderBy($sortBy,$desc==true?'DESC':'ASC')->paginate($limit));
+        $orders = Order::with(['user','orderStatus','payment'])->orderBy($sortBy,$desc==true?'DESC':'ASC')->paginate($limit);
+
+        return $this->sendSuccess($orders);
     }
 
     /**
