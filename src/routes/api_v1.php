@@ -22,6 +22,8 @@ Route::get(
     }
 );
 
+Route::get('/orders', [OrderController::class, 'index']);
+
 Route::get('/testState', [OrderController::class, 'testState']);
 
 Route::prefix('user')->group(
