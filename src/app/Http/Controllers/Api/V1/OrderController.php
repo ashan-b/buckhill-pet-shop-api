@@ -121,20 +121,22 @@ class OrderController extends Controller
      *                 @OA\Property(
      *                     property="order_status_uuid",
      *                     type="string",
-     *                     description="Order status UUID"
+     *                     description="Order status UUID",
+     *                      example="41c92f2b-2d6d-34e3-a792-9e80d3ae4bc3"
      *                 ),
      *                 @OA\Property(
      *                     property="payment_uuid",
      *                     type="string",
-     *                     description="Payment UUID"
+     *                     description="Payment UUID",
+     *                      example="ca149cd3-dc20-3bd9-a7c7-e7ac34b38020"
      *                 ),
      *                 @OA\Property(
      *                      property="products",
      *                      type="array",
      *                      description="Array of objects with product uuid and quantity",
      *                      @OA\Items(
-     *                              @OA\Property(property="uuid", type="string"),
-     *                              @OA\Property(property="quantity", type="integer")
+     *                              @OA\Property(property="uuid", type="string", example="2a6eacf2-7c97-3519-976d-a7989d7b138d"),
+     *                              @OA\Property(property="quantity", type="integer", example=1)
      *                              ),
      *                  ),
      *                 @OA\Property(
