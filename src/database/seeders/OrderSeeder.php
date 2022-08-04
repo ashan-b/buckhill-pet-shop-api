@@ -69,7 +69,8 @@ class OrderSeeder extends Seeder
                     "amount" => 610.46,
                     "order_status_uuid" => "41c92f2b-2d6d-34e3-a792-9e80d3ae4bc3",
                     "user_uuid" => "3ce8dd8d-0416-300b-bf11-e02d37b6c34d",
-                    "payment_uuid" => "3ce8dd8d-0416-300b-bf11-e02d37b6c34d"
+                    "payment_uuid" => "3ce8dd8d-0416-300b-bf11-e02d37b6c34d",
+                    "created_at"=>now()
                 ],
                 [
                     "uuid" => "edb8e045-650c-3225-a27c-f31e7c78a3e4",
@@ -249,7 +250,8 @@ class OrderSeeder extends Seeder
                     "amount" => 2672.73,
                     "order_status_uuid" => "d2c9b721-13c3-35ba-a0b5-10e683958608",
                     "user_uuid" => "3ce8dd8d-0416-300b-bf11-e02d37b6c34d",
-                    "payment_uuid" => "b0691c9f-ff47-33bf-a9dd-a7ca6077dc17"
+                    "payment_uuid" => "b0691c9f-ff47-33bf-a9dd-a7ca6077dc17",
+                    "created_at"=>now()
                 ]
             ]
         );
