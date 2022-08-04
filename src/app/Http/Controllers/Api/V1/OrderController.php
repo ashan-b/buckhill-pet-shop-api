@@ -376,11 +376,11 @@ class OrderController extends Controller
     }
 
     /**
-    * @OA\Get(
-    *     path="/api/v1/order/{uuid}/download",
-    *     summary="Download a order",
-    *     tags={"Orders"},
-    *     security={{"bearerAuth":{}}},
+     * @OA\Get(
+     *     path="/api/v1/order/{uuid}/download",
+     *     summary="Download a order",
+     *     tags={"Orders"},
+     *     security={{"bearerAuth":{}}},
      * @OA\Parameter(
      *     in="path",
      *     name="uuid",
@@ -390,37 +390,37 @@ class OrderController extends Controller
      *
      *      @OA\Schema(
      *          type="string"
-    *      )
+     *      )
      * ),
      *     @OA\Response(
      *         response=200,
      *         description="OK"
-    *     ),
+     *     ),
      *     @OA\Response(
      *         response=401,
      *         description="Unauthorized"
-    *     ),
+     *     ),
      *     @OA\Response(
      *         response=404,
      *         description="Page not found"
-    *     ),
+     *     ),
      *     @OA\Response(
      *         response=422,
      *         description="Unprocessable Entity"
-    *     ),
+     *     ),
      *     @OA\Response(
      *         response=500,
      *         description="Internal server error"
-    *     )
+     *     )
      * )
      */
     public function download(Request $request, $uuid)
     {
-        $order = Order::where('uuid',$uuid)->first();
-        if($order==null){
-            return $this->sendError("Not found.",[],[],404);
+        $order = Order::where('uuid', $uuid)->first();
+        if ($order == null) {
+            return $this->sendError("Not found.", [], [], 404);
         }
-        $pdf = Pdf::loadView('api.v1.order.invoice', ['order'=>$order]);
-        return $pdf->download('order_'.$order->uuid.'.pdf');
+        $pdf = Pdf::loadView('api.v1.order.invoice', ['order' => $order]);
+        return $pdf->download('order_' . $order->uuid . '.pdf');
     }
 }
