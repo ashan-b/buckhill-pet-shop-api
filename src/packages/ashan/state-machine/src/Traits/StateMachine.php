@@ -2,6 +2,7 @@
 
 namespace Ashan\StateMachine\Traits;
 
+use Ashan\StateMachine\Exceptions\StateMachineException;
 use Ashan\StateMachine\Models\State;
 use Ashan\StateMachine\Models\Transition;
 
@@ -9,12 +10,18 @@ trait StateMachine
 {
     protected $config = [];
     protected $graph = [];
-    protected $property_path;
+    protected $propertyPath;
     protected $primaryKeyName;
+    protected $propertyId;
 
     public function getPrimaryKeyName()
     {
         return $this->primaryKeyName;
+    }
+
+    public function getGraph()
+    {
+        return $this->graph;
     }
 
     public function setGraph($filename)
@@ -23,11 +30,12 @@ trait StateMachine
         $graph = json_decode(file_get_contents($path));
 
         $this->graph = $graph;
-        $this->property_path = $graph->property_path;
+        $this->propertyPath = $graph->property_path;
         $this->primaryKeyName = $graph->state_primary_key;
+        $this->propertyId = $graph->property_id;
 
         //Set default state
-        if ($this->exists) {//If model exists load the current state.
+        if ($this->exists) {//If model exists load the current state using propertyId.
 
             $state = array_filter(
                 $graph->states,
@@ -36,13 +44,14 @@ trait StateMachine
                         property_exists($e, $this->primaryKeyName)
                         &&
                         $e->{$this->primaryKeyName} ==
-                        $this->{$this->property_path}->getMetadata()->{$this->primaryKeyName});
+                        $this->{$this->propertyId}
+                    );
                 }
             );
             if ($state !== null) {
                 $this->setCurrentState(head($state));
             }
-        } else {
+        } else { //If model is new, load the initial property
             $defaultStateObject = array_filter(
                 $graph->states,
                 function ($e) {
@@ -58,11 +67,24 @@ trait StateMachine
     private function setCurrentState($stateObject)
     {
         $state = new State($stateObject->title, $stateObject);
-        $this->{$this->property_path} = $state;
+        $this->{$this->propertyPath} = $state;
+        $this->{$this->propertyId} = $stateObject->{$this->primaryKeyName};
     }
 
-    public function setCurrentStateByStatePrimaryKey($primaryKey)
+    public function setCurrentStateByStatePrimaryKey($primaryKey, $force = false)
     {
+        if ($force == false && !$this->canChangeStateByPrimaryKey($primaryKey)) {
+            throw new StateMachineException(
+                sprintf(
+                    '"%s" cannot change the state from primary key "%s" to "%s" according to the graph "%s"',
+                    get_class($this),
+                    $this->getCurrentState()->getMetadata()->{$this->primaryKeyName},
+                    $primaryKey,
+                    $this->graph->graph
+                )
+            );
+        }
+
         $stateT = array_filter(
             $this->graph->states,
             function ($e) use ($primaryKey) {
@@ -77,51 +99,20 @@ trait StateMachine
         $this->setCurrentState(head($stateT));
     }
 
-    public function setCurrentStateByStateTitle($title)
+    public function canChangeStateByPrimaryKey(string $primaryKey)
     {
-        $stateT = array_filter(
+        $transitionState = array_filter(
             $this->graph->states,
-            function ($e) use ($title) {
+            function ($e) use ($primaryKey) {
                 return (
-                    property_exists($e, 'title')
+                    property_exists($e, $this->primaryKeyName)
                     &&
-                    $e->title ==
-                    $title);
+                    $e->{$this->primaryKeyName} ==
+                    $primaryKey);
             }
         );
 
-        $this->setCurrentState(head($stateT));
-    }
-
-    public function getCurrentState()
-    {
-        return $this->{$this->property_path};
-    }
-
-    public function getNextTransitions()
-    {
-        $availableTransitionsState = $this->graph->transitions->{$this->getCurrentState()->getName()}[0];
-        $availableTransitions = $availableTransitionsState->to;
-
-        $availableTransitionsArray = [];
-        foreach ($availableTransitions as $availableTransition) {
-            $transitionState = array_filter(
-                $this->graph->states,
-                function ($e) use ($availableTransition) {
-                    return (property_exists($e, 'title') && $e->title == $availableTransition);
-                }
-            );
-            $transitionName = $this->getCurrentState()->getName() . "_to_" . $availableTransition;
-
-            $transition = new Transition();
-            $transition->setName($transitionName);
-            $transition->setMetadata($availableTransitionsState);
-            $transition->setInitialStateName($this->getCurrentState()->getName());
-            $transition->setResultingStateName($availableTransition);
-
-            $availableTransitionsArray[$transitionName] = $transition;
-        }
-        return $availableTransitionsArray;
+        return !empty($transitionState);
     }
 
     public function process($nextTransition)
@@ -152,5 +143,81 @@ trait StateMachine
 
         return !empty($transitionState);
     }
+
+    public function getNextTransitions()
+    {
+        $availableTransitionsState = $this->graph->transitions->{$this->getCurrentState()->getName()}[0];
+        $availableTransitions = $availableTransitionsState->to;
+
+        $availableTransitionsArray = [];
+        foreach ($availableTransitions as $availableTransition) {
+            $transitionState = array_filter(
+                $this->graph->states,
+                function ($e) use ($availableTransition) {
+                    return (property_exists($e, 'title') && $e->title == $availableTransition);
+                }
+            );
+            $transitionName = $this->getCurrentState()->getName() . "_to_" . $availableTransition;
+
+            $transition = new Transition();
+            $transition->setName($transitionName);
+            $transition->setMetadata($availableTransitionsState);
+            $transition->setInitialStateName($this->getCurrentState()->getName());
+            $transition->setResultingStateName($availableTransition);
+
+            $availableTransitionsArray[$transitionName] = $transition;
+        }
+        return $availableTransitionsArray;
+    }
+
+    public function getCurrentState()
+    {
+        return $this->{$this->propertyPath};
+    }
+
+    public function setCurrentStateByStateTitle($title, $force = false)
+    {
+        if ($force == false && !$this->canChangeStateByTitle($title)) {
+            throw new StateMachineException(
+                sprintf(
+                    '"%s" cannot change the state from title "%s" to "%s" according to the graph "%s"',
+                    get_class($this),
+                    $this->getCurrentState()->getName(),
+                    $title,
+                    $this->graph->graph
+                )
+            );
+        }
+
+        $stateT = array_filter(
+            $this->graph->states,
+            function ($e) use ($title) {
+                return (
+                    property_exists($e, 'title')
+                    &&
+                    $e->title ==
+                    $title);
+            }
+        );
+
+        $this->setCurrentState(head($stateT));
+    }
+
+    public function canChangeStateByTitle(string $title)
+    {
+        $transitionState = array_filter(
+            $this->graph->states,
+            function ($e) use ($title) {
+                return (
+                    property_exists($e, $this->title)
+                    &&
+                    $e->{$this->title} ==
+                    $title);
+            }
+        );
+
+        return !empty($transitionState);
+    }
+
 
 }

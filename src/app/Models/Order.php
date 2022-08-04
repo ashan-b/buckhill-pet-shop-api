@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Http\Traits\HasUuid;
 use Ashan\StateMachine\Traits\StateMachine;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -10,6 +11,7 @@ class Order extends Model
 {
     use HasFactory;
     use StateMachine;
+    use HasUuid;
 
     private $orderStatusState;
 
@@ -36,6 +38,7 @@ class Order extends Model
      * @var array<int, string>
      */
     protected $hidden = [
+        'order_status_state'
     ];
 
     /**
@@ -59,43 +62,28 @@ class Order extends Model
 
     public function getOrderStatusStateAttribute()
     {
-        if ($this->orderStatusState != null) {
-            return $this->orderStatusState;
-        }
-
-        $order_status_uuid = $this->attributes['order_status_uuid'];
-        if ($order_status_uuid !== null) {
-            $orderStatus = OrderStatus::where("uuid",$order_status_uuid)->first();
-            $this->setCurrentStateByStatePrimaryKey($orderStatus->{$this->primaryKeyName});
-        }
-
         return $this->orderStatusState;
     }
 
     public function setOrderStatusStateAttribute($orderStatusState)
     {
         $this->orderStatusState = $orderStatusState;
-        $orderStatus = OrderStatus::where(
-            $this->primaryKeyName,
-            $orderStatusState->getMetadata()->{$this->getPrimaryKeyName()}
-        )->first();
-        $this->attributes['order_status_uuid'] = $orderStatus->{$this->primaryKeyName};
     }
 
 
     public function user()
     {
-        return $this->hasOne(User::class, 'user_uuid', 'uuid');
+        return $this->hasOne(User::class, 'uuid', 'user_uuid');
     }
 
     public function orderStatus()
     {
-        return $this->hasOne(OrderStatus::class, 'order_status_uuid', 'uuid');
+        return $this->hasOne(OrderStatus::class, 'uuid', 'order_status_uuid');
     }
 
     public function payment()
     {
-        return $this->hasOne(Payment::class, 'payment_uuid', 'uuid');
+        return $this->hasOne(Payment::class, 'uuid', 'payment_uuid');
     }
 
 }

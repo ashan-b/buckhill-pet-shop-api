@@ -17,8 +17,10 @@ class XSS
     public function handle(Request $request, Closure $next)
     {
         $userInput = $request->all();
-        array_walk_recursive($userInput, function (&$userInput) {
-            $userInput = strip_tags($userInput);
+        array_walk_recursive($userInput, function ($userInput) {
+            if($userInput!==null){
+                $this->userInput = strip_tags($userInput);
+            }
         });
         $request->merge($userInput);
         return $next($request);

@@ -6,8 +6,9 @@ use App\Http\Traits\ResponseGenerator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Validation\Rule;
 
-class OrderCreateRequest extends FormRequest
+class OrderIndexRequest extends FormRequest
 {
     use ResponseGenerator;
 
@@ -29,10 +30,8 @@ class OrderCreateRequest extends FormRequest
     public function rules()
     {
         return [
-            'products' => 'required|string',
-            'address' => 'required|string',
-            'order_status_uuid' => 'required|exists:order_statuses,uuid',
-            'payment_uuid' => 'required|exists:payments,uuid'
+            'sortBy' => Rule::in(['id', 'uuid','amount']),
+            'desc' => Rule::in(['true', 'false']),
         ];
     }
 

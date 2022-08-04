@@ -22,15 +22,16 @@
     "license": "MIT",
     "require": {
         "php": "^8.0.2",
+        "ashan/currency-exchange-rate": "@dev",
+        "ashan/state-machine": "@dev",
+        "barryvdh/laravel-dompdf": "^2.0",
         "darkaonline/l5-swagger": "^8.3",
         "doctrine/dbal": "^3.3",
         "guzzlehttp/guzzle": "^7.2",
         "laravel/framework": "^9.19",
         "laravel/sanctum": "^2.14.1",
         "laravel/tinker": "^2.7",
-        "lcobucci/jwt": "^4.0",
-        "ashan/currency-exchange-rate": "@dev",
-        "ashan/state-machine": "@dev"
+        "lcobucci/jwt": "^4.0"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^2.12",
