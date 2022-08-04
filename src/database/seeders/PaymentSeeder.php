@@ -25,6 +25,11 @@ class PaymentSeeder extends Seeder
                 'uuid' => "b0691c9f-ff47-33bf-a9dd-a7ca6077dc17"
             ]
         );
+        \App\Models\Payment::factory()->create(
+            [
+                'uuid' => "ca149cd3-dc20-3bd9-a7c7-e7ac34b38020"
+            ]
+        );
         \App\Models\Payment::factory(10)->create();
     }
 }
