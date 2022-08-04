@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <title>Invoice #{{$order->uuid}}</title>
 
     <style>
@@ -79,6 +79,10 @@
 
         .text-center {
             text-align: center;
+        }
+
+        .avoid-table-break{
+            page-break-inside:avoid;
         }
 
         @media only screen and (max-width: 600px) {
@@ -203,7 +207,7 @@
 
 
     <h5>Total</h5>
-    <table style="width: 50%;  margin-right: 0px; margin-left: auto; border: 5px #eee solid;">
+    <table class="avoid-table-break" style="width: 50%;  margin-right: 0px; margin-left: auto; border: 5px #eee solid;">
         <tr>
             <td width="80%" style=""><strong>Subtotal</strong></td>
             <td class="text-right no-wrap">$ {{$order->amount}}</td>
