@@ -8,9 +8,10 @@ use App\Http\Requests\Api\V1\OrderController\OrderIndexRequest;
 use App\Http\Traits\JwtTokenHelper;
 use App\Http\Traits\ResponseGenerator;
 use App\Models\Order;
+use App\Models\Payment;
+use App\Models\Product;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 
 class OrderController extends Controller
 {
@@ -173,19 +174,136 @@ class OrderController extends Controller
      */
     public function store(OrderCreateRequest $request)
     {
-        $user_uuid = $this->getUserUuid($request);
+        $products = $request->get('products');
+        $address = $request->get('address');
+        $order_status_uuid = $request->get('order_status_uuid');
+        $payment_uuid = $request->get('payment_uuid');
 
-        $order = Order::create(
-            [
-                'uuid' => Str::uuid()->toString(),
-                'order_status_uuid' => $request->order_status_uuid,
-                'payment_uuid' => $request->payment_uuid,
-                'products' => $request->products,
-                'address' => $request->address,
-                'user_uuid' => $user_uuid,
-                'amount'=>0
-            ]
-        );
+        $products = json_decode('[' . $products . ']');
+        $address = json_decode($address);
+
+        $successArray=[];
+        $errorArray=[];
+        $orderTotal=0;
+
+        //Validation
+        foreach ($products as $product) {
+            if (!property_exists($product, 'uuid')) {
+                $error = [
+                    "product" => $product,
+                    "error_message" => "Invalid product. Product uuid is required.",
+                ];
+                array_push($errorArray, $error);
+            }
+            if (!property_exists($product, 'quantity')) {
+                $error = [
+                    "product" => $product,
+                    "error_message" => "Invalid product. Product quantity is required.",
+                ];
+                array_push($errorArray, $error);
+            }
+
+            $loadedProduct = Product::where("uuid", $product->uuid)->first();
+
+            if ($loadedProduct == null) {
+                $error = [
+                    "product" => $product,
+                    "error_message" => "Invalid product.",
+                ];
+                array_push($errorArray, $error);
+            }
+
+            if(is_numeric($product->quantity)==false){
+                $error = [
+                    "product" => $product,
+                    "error_message" => "Quantity must numeric.",
+                ];
+                array_push($errorArray, $error);
+            }
+
+            if(fmod($product->quantity, 1) !== 0.00){
+                //Don't allow decimal.
+                $error = [
+                    "product" => $product,
+                    "error_message" => "Quantity must be integer.",
+                ];
+                array_push($errorArray, $error);
+            }
+
+            if ($product->quantity<1) {
+                $error = [
+                    "product" => $product,
+                    "error_message" => "Quantity must be greater than 0.",
+                ];
+                array_push($errorArray, $error);
+            }
+
+            if($loadedProduct!==null){
+                $lineTotal = round($loadedProduct->price*$product->quantity,2);
+
+                $updatedProduct = [
+                    "uuid" => $loadedProduct->uuid,
+                    "price" => $loadedProduct->price,
+                    "product" => $loadedProduct->title,
+                    "quantity" => $product->quantity,
+                    "total"=>$lineTotal
+                ];
+                array_push($successArray, $updatedProduct);
+
+                $orderTotal+=$lineTotal;
+            }
+
+        }
+
+        if (!property_exists($address, 'billing')) {
+            $error = [
+                "address" => $address,
+                "error_message" => "The address.billing field is required.",
+            ];
+            array_push($errorArray, $error);
+        }
+
+        if (!property_exists($address, 'shipping')) {
+            $error = [
+                "address" => $address,
+                "error_message" => "The address.shipping field is required."
+            ];
+            array_push($errorArray, $error);
+        }
+
+        //Check if payment has been already used
+        $payment = Payment::where("uuid",$payment_uuid)->first();
+        if($payment->order!==null){
+            $error = [
+                "payment" => $payment,
+                "error_message" => "This payment belongs to another order."
+            ];
+            array_push($errorArray, $error);
+        }
+
+
+        if(!empty($errorArray)){
+            return $this->sendError("Validation Error", $errorArray,[],422);
+        }
+
+        $order = new Order();
+        $order->user_uuid= $this->getUserUuid($request);
+        //Validate against state machine. Initial order status will be assigned
+        $order->setGraph("main_graph");
+        $order->products = $successArray;
+        $order->address= $address;
+        //User story: If the order total amount is higher than 500 there is a free delivery otherwise, there will be a charge of 15
+        $order->delivery_fee= $orderTotal>500?0:15;
+        $order->amount= $orderTotal;
+
+        $order->payment_uuid= $payment_uuid;
+
+        // Using state machine to change the state. $order->order_status_uuid will be automatically assigned through state machine.
+        if($order->canChangeStateByPrimaryKey($order_status_uuid)==true){
+            $order->setCurrentStateByStatePrimaryKey($order_status_uuid);
+        }
+        $order->save();
+
 
         return $this->sendSuccess(["order" => $order]);
     }
