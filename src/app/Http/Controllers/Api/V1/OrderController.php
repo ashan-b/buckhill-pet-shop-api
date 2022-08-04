@@ -252,15 +252,52 @@ class OrderController extends Controller
 //        dd($order->can("state_1"));
     }
 
+    /**
+    * @OA\Get(
+    *     path="/api/v1/order/{uuid}/download",
+    *     summary="Download a order",
+    *     tags={"Orders"},
+    *     security={{"bearerAuth":{}}},
+     * @OA\Parameter(
+     *     in="path",
+     *     name="uuid",
+     *     required=true,
+     *     @OA\Examples(example="Order paid with credit card.", value="edb8e045-650c-3225-a27c-f31e7c78a3e4", summary="Order paid with credit card."),
+     *     @OA\Examples(example="Order paid with bank transfer.", value="7c691a23-44a0-35c8-a040-f08f2dd5de1a", summary="Order paid with bank transfer."),
+     *
+     *      @OA\Schema(
+     *          type="string"
+    *      )
+     * ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="OK"
+    *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Unauthorized"
+    *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Page not found"
+    *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Unprocessable Entity"
+    *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Internal server error"
+    *     )
+     * )
+     */
     public function download(Request $request, $uuid)
     {
         $order = Order::where('uuid',$uuid)->first();
         if($order==null){
-            abort(404);
+            return $this->sendError("Not found.",[],[],404);
         }
-//        $pdf = \Barryvdh\DomPDF\PDF::loadView('pdf', compact('order'));
         $pdf = Pdf::loadView('api.v1.order.invoice', ['order'=>$order]);
-        return $pdf->stream('order_'.$order->uuid.'.pdf');
-//        dd($order);
+        return $pdf->download('order_'.$order->uuid.'.pdf');
     }
 }
