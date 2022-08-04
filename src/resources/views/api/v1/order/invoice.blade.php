@@ -129,7 +129,7 @@
                 <table>
                     <tr>
                         <td class="title">
-                            PET SHOP
+                           {{config('app.store_name')}}
                         </td>
 
                         <td>
