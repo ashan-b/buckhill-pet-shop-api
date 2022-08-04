@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Http\Traits\HasUuid;
 use Ashan\StateMachine\Traits\StateMachine;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -10,6 +11,7 @@ class Order extends Model
 {
     use HasFactory;
     use StateMachine;
+    use HasUuid;
 
     private $orderStatusState;
 
