@@ -67,7 +67,6 @@ class CurrencyExchangeRateController extends Controller
         $amount = $request->get('amount', 0.0);
         $from = $request->get('base_currency', config('currency_exchange_rate.base_currency', 'EUR'));
         $to = $request->get('currency', '');
-
         return $this->convertCurrency($amount, $from, $to);
     }
 
@@ -84,65 +83,31 @@ class CurrencyExchangeRateController extends Controller
     public function convertCurrency(float $amount, string $from, string $to)
     {
         $exchangeRateResponse = [];
-
         $baseCurrency = $from;
         $foreignCurrency = $to;
-
         try {
             $xml = self::getReferenceRateXml();
-
             //Amount validation
             $originalAmount = $amount;
-
             if ($amount <= 0.0) {
-                return response()->json(
-                    [
-                        'success' => 0,
-                        'data' => [],
-                        "error" => "Amount must be greater than 0.",
-                        "errors" => [],
-                        "trace" => []
-                    ],
-                    422
-                );
+                return response()->json(['success' => 0,'data' => [], "error" => "Amount must be greater than 0.","errors" => [], "trace" => []], 422);
             }
-
             //Base Currency Validation
             if ($baseCurrency !== "EUR") {
                 $baseCurrencyNode = $xml->xpath('//*[@currency="' . $baseCurrency . '"]');
-                if ($baseCurrencyNode == null) {
-                    return response()->json(
-                        [
-                            'success' => 0,
-                            'data' => [],
-                            "error" => "Invalid base currency code.",
-                            "errors" => [],
-                            "trace" => []
-                        ],
-                        422
-                    );
+                if ($baseCurrencyNode === null) {
+                    return response()->json(['success' => 0, 'data' => [], "error" => "Invalid base currency code.", "errors" => [], "trace" => []], 422);
                 }
                 //Convert amount to EUR
-                $amount = $amount / $baseCurrencyNode[0]['rate'];
+                $amount /= $baseCurrencyNode[0]['rate'];
                 $exchangeRateResponse[] = [
                     "1 EUR" => $baseCurrencyNode[0]['rate'] . " " . $baseCurrency
                 ];
             }
-
             //Target Currency Validation
             $foreignCurrencyNode = $xml->xpath('//*[@currency="' . $foreignCurrency . '"]');
-
-            if ($foreignCurrencyNode == null) {
-                return response()->json(
-                    [
-                        'success' => 0,
-                        'data' => [],
-                        "error" => "Invalid foreign currency code.",
-                        "errors" => [],
-                        "trace" => []
-                    ],
-                    422
-                );
+            if ($foreignCurrencyNode === null) {
+                return response()->json(['success' => 0,'data' => [],"error" => "Invalid foreign currency code.","errors" => [], "trace" => []], 422);
             }
             $foreignCurrencyRate = $foreignCurrencyNode[0]['rate'];
             $exchangeRateResponse[] = [
@@ -150,34 +115,9 @@ class CurrencyExchangeRateController extends Controller
             ];
 
             $convertedAmount = round($amount * $foreignCurrencyRate, 2);
-
-            return response()->json(
-                [
-                    'success' => 1,
-                    'data' => [
-                        'from_currency' => $baseCurrency,
-                        "to_currency" => $foreignCurrency,
-                        'exchange_rate' => $exchangeRateResponse,
-                        'original_amount' => $originalAmount,
-                        'converted_amount' => $convertedAmount
-                    ],
-                    "error" => null,
-                    "errors" => [],
-                    "extra" => []
-                ],
-                200
-            );
+            return response()->json(['success' => 1,'data' => ['from_currency' => $baseCurrency,"to_currency" => $foreignCurrency,'exchange_rate' => $exchangeRateResponse,'original_amount' => $originalAmount, 'converted_amount' => $convertedAmount], "error" => null, "errors" => [], "extra" => []], 200);
         } catch (\Exception $e) {
-            return response()->json(
-                [
-                    'success' => 0,
-                    'data' => [],
-                    "error" => $e->getMessage(),
-                    "errors" => [],
-                    "trace" => []
-                ],
-                500
-            );
+            return response()->json(['success' => 0, 'data' => [], "error" => $e->getMessage(), "errors" => [], "trace" => []], 500);
         }
     }
 }

@@ -182,9 +182,9 @@ class OrderController extends Controller
         $products = json_decode('[' . $products . ']');
         $address = json_decode($address);
 
-        $successArray=[];
-        $errorArray=[];
-        $orderTotal=0;
+        $successArray = [];
+        $errorArray = [];
+        $orderTotal = 0;
 
         //Validation
         foreach ($products as $product) {
@@ -213,7 +213,7 @@ class OrderController extends Controller
                 array_push($errorArray, $error);
             }
 
-            if(is_numeric($product->quantity)==false){
+            if (is_numeric($product->quantity) == false) {
                 $error = [
                     "product" => $product,
                     "error_message" => "Quantity must numeric.",
@@ -221,7 +221,7 @@ class OrderController extends Controller
                 array_push($errorArray, $error);
             }
 
-            if(fmod($product->quantity, 1) !== 0.00){
+            if (fmod($product->quantity, 1) !== 0.00) {
                 //Don't allow decimal.
                 $error = [
                     "product" => $product,
@@ -230,7 +230,7 @@ class OrderController extends Controller
                 array_push($errorArray, $error);
             }
 
-            if ($product->quantity<1) {
+            if ($product->quantity < 1) {
                 $error = [
                     "product" => $product,
                     "error_message" => "Quantity must be greater than 0.",
@@ -238,21 +238,20 @@ class OrderController extends Controller
                 array_push($errorArray, $error);
             }
 
-            if($loadedProduct!==null){
-                $lineTotal = round($loadedProduct->price*$product->quantity,2);
+            if ($loadedProduct !== null) {
+                $lineTotal = round($loadedProduct->price * $product->quantity, 2);
 
                 $updatedProduct = [
                     "uuid" => $loadedProduct->uuid,
                     "price" => $loadedProduct->price,
                     "product" => $loadedProduct->title,
                     "quantity" => $product->quantity,
-                    "total"=>$lineTotal
+                    "total" => $lineTotal
                 ];
                 array_push($successArray, $updatedProduct);
 
-                $orderTotal+=$lineTotal;
+                $orderTotal += $lineTotal;
             }
-
         }
 
         if (!property_exists($address, 'billing')) {
@@ -272,8 +271,8 @@ class OrderController extends Controller
         }
 
         //Check if payment has been already used
-        $payment = Payment::where("uuid",$payment_uuid)->first();
-        if($payment->order!==null){
+        $payment = Payment::where("uuid", $payment_uuid)->first();
+        if ($payment->order !== null) {
             $error = [
                 "payment" => $payment,
                 "error_message" => "This payment belongs to another order."
@@ -282,25 +281,25 @@ class OrderController extends Controller
         }
 
 
-        if(!empty($errorArray)){
-            return $this->sendError("Validation Error", $errorArray,[],422);
+        if (!empty($errorArray)) {
+            return $this->sendError("Validation Error", $errorArray, [], 422);
         }
 
         $order = new Order();
-        $order->user_uuid= $this->getUserUuid($request);
+        $order->user_uuid = $this->getUserUuid($request);
         //Validate against state machine. Initial order status will be assigned
         $order->setGraph("main_graph");
         $order->products = $successArray;
-        $order->address= $address;
+        $order->address = $address;
         //User story: If the order total amount is higher than 500 there is a free delivery otherwise, there will be a charge of 15
-        $order->delivery_fee= $orderTotal>500?0:15;
-        $order->amount= $orderTotal;
+        $order->delivery_fee = $orderTotal > 500 ? 0 : 15;
+        $order->amount = $orderTotal;
 
-        $order->payment_uuid= $payment_uuid;
+        $order->payment_uuid = $payment_uuid;
 
         // Using state machine to change the state. $order->order_status_uuid will be automatically assigned through state machine.
-        if($order->canChangeStateByPrimaryKey($order_status_uuid)==true){
-            $order->setCurrentStateByStatePrimaryKey($order_status_uuid);
+        if ($order->canChangeStateByPrimaryKey($order_status_uuid) == true) {
+            $order->changeCurrentStateByStatePrimaryKey($order_status_uuid);
         }
         $order->save();
 
@@ -364,7 +363,7 @@ class OrderController extends Controller
 //        $order->process('state_0_to_state_2');
 //        $order->process('paid_to_shipped');
 
-        dd($order->getCurrentState());
+//        dd($order->getCurrentState());
 //
 ////dd($order->order_status_state);
 ////dd($order->order_status_id);

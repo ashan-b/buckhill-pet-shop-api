@@ -23,7 +23,7 @@ class ChangeStateOfTestModelTest extends TestCase
         $this->assertEquals("paid", $order->getCurrentState()->getName());
 
         //Set current state to shipped using UUID
-        $order->setCurrentStateByStatePrimaryKey("d2c9b721-13c3-35ba-a0b5-10e683958608");
+        $order->changeCurrentStateByStatePrimaryKey("d2c9b721-13c3-35ba-a0b5-10e683958608");
         $this->assertEquals("shipped", $order->getCurrentState()->getName());
 
         // Check canChangeStateByTitle

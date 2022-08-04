@@ -94,3 +94,5 @@ docker-compose run --rm artisan test
 
 
 docker-compose down
+
+php artisan insights

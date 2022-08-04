@@ -148,7 +148,7 @@ class UserController extends Controller
      */
     public function create(UserCreateRequest $request)
     {
-        $user = new User;
+        $user = new User();
         $user->fill($request->all());
         $user->is_admin = false;
         $user->password = Hash::make($request->password);

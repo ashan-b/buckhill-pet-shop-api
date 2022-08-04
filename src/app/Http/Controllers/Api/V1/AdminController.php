@@ -25,8 +25,8 @@ class AdminController extends Controller
      *     description="Admin API endpoint"
      * )
      * /
-
-    /*
+     *
+     * /*
      * @OA\Post(
      *     path="/api/v1/admin/login",
      *     summary="Login an Admin account",
@@ -94,9 +94,8 @@ class AdminController extends Controller
             }
 
             return $this->sendSuccess(["token" => $token]);
-        } else {
-            return $this->sendError("Failed to authenticate user", [], null, 422);
         }
+        return $this->sendError("Failed to authenticate user", [], null, 422);
     }
 
     /**
@@ -134,9 +133,9 @@ class AdminController extends Controller
 
         if ($tokenInvalidated == true) {
             return $this->sendSuccess([]);
-        } else {
-            return $this->sendError("Invalid token.", [], null, 422);
         }
+
+        return $this->sendError("Invalid token.", [], null, 422);
     }
 
 }

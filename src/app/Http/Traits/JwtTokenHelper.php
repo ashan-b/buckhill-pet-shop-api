@@ -21,7 +21,7 @@ trait JwtTokenHelper
 
     public function getConfig()
     {
-        if($this->config == null){
+        if($this->config === null){
             $privateKeyPath = env("JWT_PRIVATE_KEY_PATH");
             $publicKeyPath = env("JWT_PUBLIC_KEY_PATH");
 
@@ -52,7 +52,7 @@ trait JwtTokenHelper
             ->expiresAt($expiresAt)
             ->getToken($config->signer(), $config->signingKey());
 
-        $jwtToken = new JwtToken;
+        $jwtToken = new JwtToken();
         $jwtToken->user_id = $user->id;
         $jwtToken->unique_id = $unique_id;
         $jwtToken->token_title = "API";
@@ -72,7 +72,7 @@ trait JwtTokenHelper
         $unique_id = $parsedJwtToken->claims()->get('unique_id');
 
         $jwtToken = JwtToken::where('unique_id', $unique_id)->first();
-        if ($parsedJwtToken != null && $jwtToken !== null && $jwtToken->expires_at > Carbon::now()) {
+        if ($parsedJwtToken !== null && $jwtToken !== null && $jwtToken->expires_at > Carbon::now()) {
             $jwtToken->last_used_at = Carbon::now();
             $jwtToken->save();
             return $jwtToken;
