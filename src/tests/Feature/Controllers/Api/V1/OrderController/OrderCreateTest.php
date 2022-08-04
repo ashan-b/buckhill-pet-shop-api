@@ -2,10 +2,12 @@
 
 namespace Tests\Feature;
 
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class OrderCreateTest extends TestCase
 {
+    use RefreshDatabase;
     /**
      * Test order create
      *
