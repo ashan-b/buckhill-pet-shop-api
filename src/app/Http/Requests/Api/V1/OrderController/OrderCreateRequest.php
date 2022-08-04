@@ -29,10 +29,10 @@ class OrderCreateRequest extends FormRequest
     public function rules()
     {
         return [
-            'products' => 'required',
-            'address' => 'required',
-            'order_status_uuid' => 'required',
-            'payment_uuid' => 'required'
+            'products' => 'required|string',
+            'address' => 'required|string',
+            'order_status_uuid' => 'required|exists:order_statuses,uuid',
+            'payment_uuid' => 'required|exists:payments,uuid'
         ];
     }
 
