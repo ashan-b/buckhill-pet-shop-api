@@ -127,7 +127,7 @@ trait StateMachine
                 return (property_exists($e, 'name') && $e->getName() == $nextTransition);
             }
         );
-        $this->setCurrentStateByStateTitle(head($transitionState)->getResultingStateName());
+        $this->setCurrentStateByStateTitle(head($transitionState)->getResultingStateName(),true);
         return true;
     }
 
