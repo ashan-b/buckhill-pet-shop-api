@@ -344,17 +344,27 @@ class OrderController extends Controller
 
     public function testState(\Illuminate\Http\Request $request)
     {
-        $order = new Order;
-//        $order = Order::find(1);
+//        $order = new Order;
+//        $order->setGraph("main_graph");
+//        dd($order->getCurrentState());
+//        $order->setCurrentStateByStatePrimaryKey("8fe0053a-6bbe-34e7-820f-19812a6e62e5");
+//        dd($value);
+
+        $order = Order::find(1);
 //        $order->uuid="123";
 
 //        $order->setGraph($manage);
         $filename = "main_graph";
         $order->setGraph($filename);
+        $order->setCurrentStateByStatePrimaryKey("canc");
+        $order->save();
 //        dd($order->getCurrentState());
 //        dd($order->getNextTransitions());
 //        dd($order->can('state_0_to_state_1'));
 //        $order->process('state_0_to_state_2');
+//        $order->process('paid_to_shipped');
+
+        dd($order->getCurrentState());
 //
 ////dd($order->order_status_state);
 ////dd($order->order_status_id);
@@ -363,9 +373,9 @@ class OrderController extends Controller
 //        $order->amount = 100;
 //        $order->user_id = 1;
 //        $order->payment_id = null;
-//        $order->save();
-        $order->setCurrentStateByStateTitle("canceled");
-        dd($order->getCurrentState());
+////        $order->save();
+//        $order->setCurrentStateByStateTitle("canceled");
+//        dd($order->getCurrentState());
 //$order->setOrderStatusState("state_1");
 //        $order->setConfig($config);
 //        $order->setObject($order);
