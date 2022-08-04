@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8" />
-    <title>A simple, clean, and responsive HTML invoice template</title>
+    <meta charset="utf-8"/>
+    <title>Invoice #{{$order->uuid}}</title>
 
     <style>
         .invoice-box {
@@ -72,11 +72,12 @@
             border-top: 2px solid #eee;
             font-weight: bold;
         }
-        .text-right{
+
+        .text-right {
             text-align: right
         }
 
-        .text-center{
+        .text-center {
             text-align: center;
         }
 
@@ -98,11 +99,11 @@
             text-align: right;
         }
 
-        .text-small{
+        .text-small {
             font-size: 10px;
         }
 
-        .no-wrap{
+        .no-wrap {
             white-space: nowrap;
         }
 
@@ -110,7 +111,7 @@
             text-align: left;
         }
 
-        table{
+        table {
             font-size: 12px;
         }
     </style>
@@ -128,7 +129,8 @@
                         </td>
 
                         <td>
-                            <strong>Date:</strong> {{$order->created_at!==null?$order->created_at->format('d-m-Y'):""}}<br />
+                            <strong>Date:</strong> {{$order->created_at!==null?$order->created_at->format('d-m-Y'):""}}
+                            <br/>
                             <strong>Invoice #:</strong> {{$order->uuid}}
                         </td>
                     </tr>
@@ -176,7 +178,7 @@
         </tr>
     </table>
 
-        <h5>Items</h5>
+    <h5>Items</h5>
     <table cellpadding="0" cellspacing="0">
         <tr class="heading">
             <td class="text-center">#</td>
@@ -188,14 +190,14 @@
         </tr>
 
         @foreach($order->products as $product)
-        <tr class="item">
-            <td class="text-center">{{$loop->iteration}}</td>
-            <td class="text-small">{{$product['uuid']}}</td>
-            <td>{{$product['product']}}</td>
-            <td class="text-center">{{$product['quantity']}}</td>
-            <td class="text-right no-wrap">$ {{$product['price']}}</td>
-            <td class="text-right no-wrap">$ {{round($product['price']*$product['quantity'],2)}}</td>
-        </tr>
+            <tr class="item">
+                <td class="text-center">{{$loop->iteration}}</td>
+                <td class="text-small">{{$product['uuid']}}</td>
+                <td>{{$product['product']}}</td>
+                <td class="text-center">{{$product['quantity']}}</td>
+                <td class="text-right no-wrap">$ {{$product['price']}}</td>
+                <td class="text-right no-wrap">$ {{round($product['price']*$product['quantity'],2)}}</td>
+            </tr>
         @endforeach
     </table>
 
@@ -204,15 +206,15 @@
     <table style="width: 50%;  margin-right: 0px; margin-left: auto; border: 5px #eee solid;">
         <tr>
             <td width="80%" style=""><strong>Subtotal</strong></td>
-            <td class="text-right">$ {{$order->amount}}</td>
+            <td class="text-right no-wrap">$ {{$order->amount}}</td>
         </tr>
         <tr>
             <td><strong>Delivery fee</strong></td>
-            <td class="text-right">$ {{$order->delivery_fee}}</td>
+            <td class="text-right no-wrap">$ {{$order->delivery_fee}}</td>
         </tr>
         <tr>
             <td><strong>TOTAL</strong></td>
-            <td class="text-right"><strong>$ {{$order->amount+$order->delivery_fee}}</strong></td>
+            <td class="text-right no-wrap"><strong>$ {{$order->amount+$order->delivery_fee}}</strong></td>
         </tr>
     </table>
 </div>
