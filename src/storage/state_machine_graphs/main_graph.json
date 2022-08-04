@@ -2,6 +2,7 @@
     "graph": "main_graph",
     "property_path": "order_status_state",
     "state_primary_key": "uuid",
+    "property_id": "order_status_uuid",
     "states": [
         {
             "title": "open",
