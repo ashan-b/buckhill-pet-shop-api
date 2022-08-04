@@ -1,0 +1,26 @@
+{
+    "name": "ashan/state-machine",
+    "description": "State machine design pattern",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Ashan\\StateMachine\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Ashan Beruwalage",
+            "email": "ashan-b@live.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Ashan\\StateMachine\\StateMachineServiceProvider"
+            ]
+        }
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.5"
+    }
+}
