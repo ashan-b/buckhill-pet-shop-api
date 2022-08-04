@@ -142,20 +142,33 @@
                     <tr>
                         <td width="50%">
                             <strong>Customer Details</strong><br/>
-                            First Name: {{$order->user->first_name}}<br />
-                            Last Name: {{$order->user->last_name}}<br />
-                            ID: {{$order->user->uuid}}<br />
-                            Phone Number: {{$order->user->phone_number}}<br />
-                            Email: {{$order->user->email}}<br />
-                            Address: {{$order->user->address_title}}<br />
-                            12345 Sunny Road<br />
+                            First Name: {{$order->user->first_name}}<br/>
+                            Last Name: {{$order->user->last_name}}<br/>
+                            ID: {{$order->user->uuid}}<br/>
+                            Phone Number: {{$order->user->phone_number}}<br/>
+                            Email: {{$order->user->email}}<br/>
+                            Address: {{$order->user->address_title}}<br/>
+                            12345 Sunny Road<br/>
                             Sunnyville, CA 12345
                         </td>
 
                         <td class="text-right">
                             <strong>Billing/Shipping Details</strong><br/>
-                            Billing: {{$order->address['billing']}}<br />
-                            Shipping: {{$order->address['shipping']}}<br />
+                            Billing: {{$order->address['billing']}}<br/>
+                            Shipping: {{$order->address['shipping']}}<br/><br/>
+                            <strong>Payment Details</strong><br/>
+                            Payment Type: {{$order->payment['type']}}<br/>
+                            <ul>
+                                @if($order->payment['type']!=="credit_card")
+                                    @foreach ($order->payment['details'] as $key => $node)
+                                        <li>{{ $key }}: {{ $node }}</li>
+                                    @endforeach
+                                @else
+                                    <li>Holder Name: {{ $order->payment['details']['holder_name'] }}</li>
+                                    <li>
+                                        Number: {{str_pad(substr($order->payment['details']['number'],-4),strlen($order->payment['details']['number']), "X", STR_PAD_LEFT)}}</li>
+                                @endif
+                            </ul>
                         </td>
                     </tr>
                 </table>
