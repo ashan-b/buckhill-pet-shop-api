@@ -36,6 +36,7 @@ class Order extends Model
      * @var array<int, string>
      */
     protected $hidden = [
+        'order_status_state'
     ];
 
     /**
@@ -59,27 +60,12 @@ class Order extends Model
 
     public function getOrderStatusStateAttribute()
     {
-        if ($this->orderStatusState != null) {
-            return $this->orderStatusState;
-        }
-
-        $order_status_uuid = $this->attributes['order_status_uuid'];
-        if ($order_status_uuid !== null) {
-            $orderStatus = OrderStatus::where("uuid",$order_status_uuid)->first();
-            $this->setCurrentStateByStatePrimaryKey($orderStatus->{$this->primaryKeyName});
-        }
-
         return $this->orderStatusState;
     }
 
     public function setOrderStatusStateAttribute($orderStatusState)
     {
         $this->orderStatusState = $orderStatusState;
-        $orderStatus = OrderStatus::where(
-            $this->primaryKeyName,
-            $orderStatusState->getMetadata()->{$this->getPrimaryKeyName()}
-        )->first();
-        $this->attributes['order_status_uuid'] = $orderStatus->{$this->primaryKeyName};
     }
 
 
