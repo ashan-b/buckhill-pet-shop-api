@@ -174,11 +174,13 @@
                                 "properties": {
                                     "order_status_uuid": {
                                         "description": "Order status UUID",
-                                        "type": "string"
+                                        "type": "string",
+                                        "example": "41c92f2b-2d6d-34e3-a792-9e80d3ae4bc3"
                                     },
                                     "payment_uuid": {
                                         "description": "Payment UUID",
-                                        "type": "string"
+                                        "type": "string",
+                                        "example": "ca149cd3-dc20-3bd9-a7c7-e7ac34b38020"
                                     },
                                     "products": {
                                         "description": "Array of objects with product uuid and quantity",
@@ -186,10 +188,12 @@
                                         "items": {
                                             "properties": {
                                                 "uuid": {
-                                                    "type": "string"
+                                                    "type": "string",
+                                                    "example": "2a6eacf2-7c97-3519-976d-a7989d7b138d"
                                                 },
                                                 "quantity": {
-                                                    "type": "integer"
+                                                    "type": "integer",
+                                                    "example": 1
                                                 }
                                             },
                                             "type": "object"
