@@ -86,11 +86,14 @@ class OrderController extends Controller
      */
     public function index(OrderIndexRequest $request)
     {
-        $limit =$request->get('limit',15);
-        $sortBy = $request->get('sortBy','id');
-        $desc = $request->boolean('desc',false);
+        $limit = $request->get('limit', 15);
+        $sortBy = $request->get('sortBy', 'id');
+        $desc = $request->boolean('desc', false);
 
-        $orders = Order::with(['user','orderStatus','payment'])->orderBy($sortBy,$desc==true?'DESC':'ASC')->paginate($limit);
+        $orders = Order::with(['user', 'orderStatus', 'payment'])->orderBy(
+            $sortBy,
+            $desc == true ? 'DESC' : 'ASC'
+        )->paginate($limit);
 
         return $this->sendSuccess($orders);
     }
