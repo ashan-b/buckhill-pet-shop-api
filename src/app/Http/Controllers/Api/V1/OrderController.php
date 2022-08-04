@@ -8,6 +8,7 @@ use App\Http\Requests\Api\V1\OrderController\OrderIndexRequest;
 use App\Http\Traits\JwtTokenHelper;
 use App\Http\Traits\ResponseGenerator;
 use App\Models\Order;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -257,6 +258,9 @@ class OrderController extends Controller
         if($order==null){
             abort(404);
         }
-        dd($order);
+//        $pdf = \Barryvdh\DomPDF\PDF::loadView('pdf', compact('order'));
+        $pdf = Pdf::loadView('api.v1.order.invoice', ['order'=>$order]);
+        return $pdf->stream('order_'.$order->uuid.'.pdf');
+//        dd($order);
     }
 }
