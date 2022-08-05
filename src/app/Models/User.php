@@ -68,6 +68,8 @@ use Illuminate\Notifications\Notifiable;
  * @method static \Illuminate\Database\Eloquent\Builder|User whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereUuid($value)
  * @mixin \Eloquent
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Order[] $orders
+ * @property-read int|null $orders_count
  */
 class User extends Authenticatable
 {
@@ -150,8 +152,4 @@ class User extends Authenticatable
         return $this->hasMany(JwtToken::class);
     }
 
-    public function orders()
-    {
-        return $this->hasMany(Order::class,'uuid','user_uuid');
-    }
 }

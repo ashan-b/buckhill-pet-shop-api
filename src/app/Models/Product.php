@@ -77,7 +77,7 @@ class Product extends Model
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
-     **/
+     */
     public function category()
     {
         return $this->hasOne(Category::class, 'uuid','category_uuid');
