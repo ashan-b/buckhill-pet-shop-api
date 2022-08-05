@@ -20,7 +20,7 @@ class TestModel extends Model
 {
     use StateMachine;
 
-    private $orderStatusState;
+    protected $orderStatusState;
 
     protected $fillable = [
         'order_status_uuid'
