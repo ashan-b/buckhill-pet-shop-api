@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers\Api\V1;
 
-use App\Models\User;
-use Illuminate\Support\Str;
-use App\Http\Traits\JwtTokenHelper;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Hash;
-use App\Http\Traits\ResponseGenerator;
-use App\Http\Requests\Api\V1\UserController\UserLoginRequest;
 use App\Http\Requests\Api\V1\UserController\UserCreateRequest;
+use App\Http\Requests\Api\V1\UserController\UserLoginRequest;
 use App\Http\Requests\Api\V1\UserController\UserLogoutRequest;
+use App\Http\Traits\JwtTokenHelper;
+use App\Http\Traits\ResponseGenerator;
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class UserController extends Controller
 {
@@ -151,7 +151,6 @@ class UserController extends Controller
         $user->password = Hash::make($request->password);
         $user->uuid = Str::uuid()->toString();
         $user->save();
-
         $token = $this->generateJwtToken($user);
 
         return $this->sendSuccess(
@@ -162,18 +161,8 @@ class UserController extends Controller
                 'email' => $user->email,
                 'avatar' => $user->avatar,
                 'address_title' => $user->address_title,
-                'address_line_1' => $user->address_line_1,
-                'address_line_2' => $user->address_line_2,
-                'address_line_3' => $user->address_line_3,
-                'address_line_4_city' => $user->address_line_4_city,
-                'address_line_5_state' => $user->address_line_5_state,
-                'address_line_6_zip' => $user->address_line_6_zip,
-                'address_line_7_country' => $user->address_line_7_country,
-                'phone_number_country_code' => $user->phone_number_country_code,
                 'phone_number' => $user->phone_number,
                 'is_marketing' => $user->is_marketing,
-                'updated_at' => $user->updated_at,
-                'created_at' => $user->created_at,
                 'token' => $token,
             ]
         );

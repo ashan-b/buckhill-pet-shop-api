@@ -16,7 +16,7 @@ use App\Http\Controllers\Api\V1\UserController;
 */
 
 Route::prefix('user')->group(
-    function () : void{
+    function (): void {
         Route::post('/login', [UserController::class, 'login']);
         Route::post('/create', [UserController::class, 'create']);
     }
@@ -30,10 +30,8 @@ Route::prefix('admin')->group(
 
 
 Route::group(
-    [
-        'middleware' => ['jwt_verification:USER', 'xss']
-    ],
-    function () : void {
+    ['middleware' => ['jwt_verification:USER', 'xss']],
+    function (): void {
         Route::get('/orders', [OrderController::class, 'index']);
         Route::post('/order/create', [\App\Http\Controllers\Api\V1\OrderController::class, 'store']);
         Route::get('/order/{uuid}/download', [OrderController::class, 'download']);
@@ -41,20 +39,14 @@ Route::group(
 );
 
 Route::group(
-    [
-        'middleware' => ['jwt_verification:USER', 'xss'],
-        'prefix' => 'user'
-    ],
+    ['middleware' => ['jwt_verification:USER', 'xss'], 'prefix' => 'user'],
     function (): void {
         Route::get('/logout', [UserController::class, 'logout']);
     }
 );
 
 Route::group(
-    [
-        'middleware' => ['jwt_verification:ADMIN', 'xss'],
-        'prefix' => 'admin'
-    ],
+    ['middleware' => ['jwt_verification:ADMIN', 'xss'], 'prefix' => 'admin'],
     function (): void {
         Route::get('/logout', [AdminController::class, 'logout']);
     }

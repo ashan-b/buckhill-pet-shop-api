@@ -3,8 +3,8 @@
 namespace App\Http\Requests\Api\V1\AdminController;
 
 use App\Http\Traits\ResponseGenerator;
-use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
 class AdminLogoutRequest extends FormRequest

@@ -3,8 +3,8 @@
 namespace App\Http\Requests\Api\V1\UserController;
 
 use App\Http\Traits\ResponseGenerator;
-use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
 class UserLoginRequest extends FormRequest
@@ -36,8 +36,6 @@ class UserLoginRequest extends FormRequest
 
     public function failedValidation(Validator $validator)
     {
-        throw new HttpResponseException(
-            $this->sendError('Validation errors', $validator->errors(), null, 422)
-        );
+        throw new HttpResponseException($this->sendError('Validation errors', $validator->errors(), null, 422));
     }
 }

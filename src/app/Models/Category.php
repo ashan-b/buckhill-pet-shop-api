@@ -66,6 +66,6 @@ class Category extends Model
      */
     public function products()
     {
-        return $this->hasMany(Product::class,"uuid", "category_uuid");
+        return $this->hasMany(Product::class, "uuid", "category_uuid");
     }
 }

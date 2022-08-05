@@ -3,8 +3,8 @@
 namespace App\Http\Requests\Api\V1\OrderController;
 
 use App\Http\Traits\ResponseGenerator;
-use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Validation\Rule;
 
@@ -30,7 +30,7 @@ class OrderIndexRequest extends FormRequest
     public function rules()
     {
         return [
-            'sortBy' => Rule::in(['id', 'uuid','amount']),
+            'sortBy' => Rule::in(['id', 'uuid', 'amount']),
             'desc' => Rule::in(['true', 'false']),
         ];
     }

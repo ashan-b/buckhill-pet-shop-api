@@ -2,9 +2,9 @@
 
 namespace Ashan\StateMachine\Traits;
 
+use Ashan\StateMachine\Exceptions\InvalidStateMachineTransition;
 use Ashan\StateMachine\Models\State;
 use Ashan\StateMachine\Models\Transition;
-use Ashan\StateMachine\Exceptions\StateMachineException;
 
 trait StateMachine
 {
@@ -32,27 +32,14 @@ trait StateMachine
         $this->propertyPath = $graph->property_path;
         $this->primaryKeyName = $graph->state_primary_key;
         $this->propertyId = $graph->property_id;
-        //Set default state
-        if ($this->exists) {//If model exists load the current state using propertyId.
-            $state = array_filter(
-                $graph->states,
-                function ($e) {
-                    return property_exists(
-                        $e,
-                        $this->primaryKeyName
-                    ) && $e->{$this->primaryKeyName} === $this->{$this->propertyId};
-                }
-            );
+        //If model exists load the current state using propertyId.
+        if ($this->exists) {
+            $state = array_filter($graph->states, function ($e) { return property_exists($e, $this->primaryKeyName) && $e->{$this->primaryKeyName} === $this->{$this->propertyId};});
             if ($state !== null) {
                 $this->changeCurrentState(head($state));
             }
         } else { //If model is new, load the initial property
-            $defaultStateObject = array_filter(
-                $graph->states,
-                function ($e) {
-                    return property_exists($e, 'initial') && $e->initial === true;
-                }
-            );
+            $defaultStateObject = array_filter( $graph->states, function ($e) { return property_exists($e, 'initial') && $e->initial === true; });
             if ($defaultStateObject !== null) {
                 $this->changeCurrentState($defaultStateObject[0]);
             }
@@ -69,7 +56,7 @@ trait StateMachine
     public function changeCurrentStateByStatePrimaryKey($primaryKey, $force = false): void
     {
         if ($force === false && !$this->canChangeStateByPrimaryKey($primaryKey)) {
-            throw new StateMachineException(
+            throw new InvalidStateMachineTransition(
                 sprintf(
                     '"%s" cannot change the state from primary key "%s" to "%s" according to the graph "%s"',
                     static::class,
@@ -154,7 +141,7 @@ trait StateMachine
     public function changeCurrentStateByStateTitle($title, $force = false): void
     {
         if ($force === false && !$this->canChangeStateByTitle($title)) {
-            throw new StateMachineException(
+            throw new InvalidStateMachineTransition(
                 sprintf(
                     '"%s" cannot change the state from title "%s" to "%s" according to the graph "%s"',
                     static::class,

@@ -43,18 +43,8 @@ class UserCreateTest extends TestCase
                         'email',
                         'avatar',
                         'address_title',
-                        'address_line_1',
-                        'address_line_2',
-                        'address_line_3',
-                        'address_line_4_city',
-                        'address_line_5_state',
-                        'address_line_6_zip',
-                        'address_line_7_country',
-                        'phone_number_country_code',
                         'phone_number',
                         'is_marketing',
-                        'updated_at',
-                        'created_at',
                         'token',
                     ]
                 ]

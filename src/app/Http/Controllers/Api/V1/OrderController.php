@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers\Api\V1;
 
+use App\Http\Controllers\Controller;
+use App\Http\Requests\Api\V1\OrderController\OrderCreateRequest;
+use App\Http\Requests\Api\V1\OrderController\OrderIndexRequest;
+use App\Http\Traits\JwtTokenHelper;
+use App\Http\Traits\ResponseGenerator;
 use App\Models\Order;
 use App\Models\Payment;
 use App\Models\Product;
 use Barryvdh\DomPDF\Facade\Pdf;
-use App\Http\Traits\JwtTokenHelper;
-use App\Http\Controllers\Controller;
-use App\Http\Traits\ResponseGenerator;
-use App\Http\Requests\Api\V1\OrderController\OrderIndexRequest;
-use App\Http\Requests\Api\V1\OrderController\OrderCreateRequest;
 
 class OrderController extends Controller
 {

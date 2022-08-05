@@ -34,7 +34,6 @@ use Illuminate\Notifications\Notifiable;
  * @property string|null $phone_number
  * @property bool $is_marketing
  * @property \Illuminate\Support\Carbon|null $last_login_at
- * @property mixed $0
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\JwtToken[] $jwtTokens
  * @property-read int|null $jwt_tokens_count
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection|\Illuminate\Notifications\DatabaseNotification[] $notifications
@@ -120,27 +119,27 @@ class User extends Authenticatable
      * @var array<string, string>
      */
     protected $casts = [
-        'uuid'=>'string',
-        'first_name'=>'string',
-        'last_name'=>'string',
-        'email'=>'string',
+        'uuid' => 'string',
+        'first_name' => 'string',
+        'last_name' => 'string',
+        'email' => 'string',
         'email_verified_at',
-        'password'=>'string',
-        'remember_token'=>'string',
-        'is_admin'=>'boolean',
-        'avatar'=>'string',
-        'address_title'=>'string',
-        'address_line_1'=>'string',
-        'address_line_2'=>'string',
-        'address_line_3'=>'string',
-        'address_line_4_city'=>'string',
-        'address_line_5_state'=>'string',
-        'address_line_6_zip'=>'string',
-        'address_line_7_country'=>'string',
-        'phone_number_country_code'=>'string',
-        'phone_number'=>'string',
-        'is_marketing'=>'boolean',
-        'last_login_at'=> 'datetime',
+        'password' => 'string',
+        'remember_token' => 'string',
+        'is_admin' => 'boolean',
+        'avatar' => 'string',
+        'address_title' => 'string',
+        'address_line_1' => 'string',
+        'address_line_2' => 'string',
+        'address_line_3' => 'string',
+        'address_line_4_city' => 'string',
+        'address_line_5_state' => 'string',
+        'address_line_6_zip' => 'string',
+        'address_line_7_country' => 'string',
+        'phone_number_country_code' => 'string',
+        'phone_number' => 'string',
+        'is_marketing' => 'boolean',
+        'last_login_at' => 'datetime',
         'email_verified_at' => 'datetime'
     ];
 

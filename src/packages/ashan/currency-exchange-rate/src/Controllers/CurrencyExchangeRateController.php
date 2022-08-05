@@ -72,10 +72,7 @@ class CurrencyExchangeRateController extends Controller
 
     public function getReferenceRateXml()
     {
-        $referenceRateXmlUrl = config(
-            'currency_exchange_rate.reference_rate_xml_url',
-            'https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml'
-        );
+        $referenceRateXmlUrl = config('currency_exchange_rate.reference_rate_xml_url', 'https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml');
         $url = file_get_contents($referenceRateXmlUrl);
         return new \SimpleXMLElement($url);
     }
