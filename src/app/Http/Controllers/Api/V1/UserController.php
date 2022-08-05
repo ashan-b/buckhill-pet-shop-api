@@ -2,21 +2,18 @@
 
 namespace App\Http\Controllers\Api\V1;
 
-use App\Http\Controllers\AppBaseController;
-use App\Http\Controllers\Controller;
-use App\Http\Requests\Api\V1\UserController\UserCreateRequest;
-use App\Http\Requests\Api\V1\UserController\UserLoginRequest;
-use App\Http\Requests\Api\V1\UserController\UserLogoutRequest;
-use App\Http\Traits\JwtTokenHelper;
-use App\Http\Traits\ResponseGenerator;
 use App\Models\User;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
-
+use App\Http\Traits\JwtTokenHelper;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Hash;
+use App\Http\Traits\ResponseGenerator;
+use App\Http\Requests\Api\V1\UserController\UserLoginRequest;
+use App\Http\Requests\Api\V1\UserController\UserCreateRequest;
+use App\Http\Requests\Api\V1\UserController\UserLogoutRequest;
 
 class UserController extends Controller
 {
-
     use JwtTokenHelper;
     use ResponseGenerator;
 
@@ -177,11 +174,10 @@ class UserController extends Controller
                 'is_marketing' => $user->is_marketing,
                 'updated_at' => $user->updated_at,
                 'created_at' => $user->created_at,
-                'token' => $token
+                'token' => $token,
             ]
         );
     }
-
 
     /**
      * @OA\Post(
@@ -244,9 +240,9 @@ class UserController extends Controller
 
         $user = User::where('email', $email)->where('is_admin', false)->first();
 
-        if ($user != null && Hash::check($password, $user->password)) {
+        if ($user !== null && Hash::check($password, $user->password)) {
             $token = $this->generateJwtToken($user);
-            if ($token == null) {
+            if ($token === null) {
                 abort(500);
             }
 
@@ -254,7 +250,6 @@ class UserController extends Controller
         }
         return $this->sendError("Failed to authenticate user", [], null, 422);
     }
-
 
     /**
      * @OA\Get(
@@ -295,5 +290,4 @@ class UserController extends Controller
 
         return $this->sendError("Invalid token.", [], null, 422);
     }
-
 }
