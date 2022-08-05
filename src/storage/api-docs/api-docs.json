@@ -31,11 +31,13 @@
                                 "properties": {
                                     "email": {
                                         "description": "Admin email",
-                                        "type": "string"
+                                        "type": "string",
+                                        "example": "admin@gmail.com"
                                     },
                                     "password": {
                                         "description": "Admin password",
-                                        "type": "string"
+                                        "type": "string",
+                                        "example": "password"
                                     }
                                 },
                                 "type": "object"
@@ -119,7 +121,7 @@
                         "name": "sortBy",
                         "in": "query",
                         "schema": {
-                            "type": "integer"
+                            "type": "string"
                         }
                     },
                     {
@@ -380,7 +382,7 @@
                                     },
                                     "is_marketing": {
                                         "description": "User marketing preferences",
-                                        "type": "string"
+                                        "type": "boolean"
                                     }
                                 },
                                 "type": "object"
@@ -426,11 +428,13 @@
                                 "properties": {
                                     "email": {
                                         "description": "User email",
-                                        "type": "string"
+                                        "type": "string",
+                                        "example": "user@gmail.com"
                                     },
                                     "password": {
                                         "description": "User password",
-                                        "type": "string"
+                                        "type": "string",
+                                        "example": "password"
                                     }
                                 },
                                 "type": "object"

@@ -115,7 +115,7 @@ class UserController extends Controller
      *                 ),
      *                   @OA\Property(
      *                     property="is_marketing",
-     *                     type="string",
+     *                     type="boolean",
      *                     description="User marketing preferences"
      *                 ),
      *             ),
@@ -182,12 +182,14 @@ class UserController extends Controller
      *                 @OA\Property(
      *                     property="email",
      *                     type="string",
-     *                     description="User email"
+     *                     description="User email",
+     *                     example="user@gmail.com"
      *                 ),
      *                 @OA\Property(
      *                     property="password",
      *                     type="string",
-     *                     description="User password"
+     *                     description="User password",
+     *                     example="password"
      *                 ),
      *             ),
      *         )
