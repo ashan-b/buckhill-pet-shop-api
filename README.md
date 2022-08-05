@@ -123,6 +123,16 @@ Docker
 Swagger doc is included in the following link.
 [{APP_URL}/api/documentation/](http://127.0.0.1:8000/api/documentation/)
 
+## Sample Login Details
+
+**User**\
+user@gmail.com\
+password: password
+
+**Admin**\
+admin@gmail.com\
+password: password
+
 ## License
 
 [MIT](https://choosealicense.com/licenses/mit/)

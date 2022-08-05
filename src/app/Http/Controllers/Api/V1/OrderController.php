@@ -52,7 +52,7 @@ class OrderController extends Controller
      *     in="query",
      *     name="sortBy",
      *      @OA\Schema(
-     *          type="integer"
+     *          type="string"
      *      )
      * ),
      *     @OA\Parameter(
