@@ -3,11 +3,14 @@
 
 namespace Ashan\StateMachine\Models;
 
-
+/**
+ * Class State
+ * @package Ashan\StateMachine\Models
+ */
 class State
 {
-private $name;
-private $metadata;
+    protected $name;
+    protected $metadata;
 
     /**
      * State constructor.
@@ -19,7 +22,6 @@ private $metadata;
         $this->name = $name;
         $this->metadata = $metadata;
     }
-
 
     /**
      * @return string
@@ -52,6 +54,4 @@ private $metadata;
     {
         $this->metadata = $metadata;
     }
-
-
 }
