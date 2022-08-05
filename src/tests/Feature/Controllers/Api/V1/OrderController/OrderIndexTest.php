@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Feature\Controllers\Api\V1\OrderController;
 
 use Tests\TestCase;
 

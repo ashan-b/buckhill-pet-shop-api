@@ -52,33 +52,25 @@ Fill your database information here.
 ### 2. Setup JWT Signing Keys
 Copy `private-key.pem` and `public-key.pk` in to `src\jwt_keys` folder. These files will be used to sign the jwt auth tokens.
 
-### 3. Build the docker image 
-
+### 3. Make sure you have docker installed
+  
+### 4. Run docker image locally  
 ```  
-docker build -t app:latest .  
+docker-compose up -d --build site
 ```  
 This image exposes following containers.
 nginx - :80  
 mysql - :3306  
 php - :9000  
-  
-### 4. Run docker image locally  
-```  
-docker-compose up -d --build site.
-```  
 ### 5. Setup the project
 
   Install composer
 
     docker-compose run --rm composer update  
 
-Install npm
-
-    docker-compose run --rm npm run dev  
-
 Generate App Key
 
-     php artisan key:generate
+     docker-compose run --rm artisan key:generate
 
 Migrate and run database seeder
 
