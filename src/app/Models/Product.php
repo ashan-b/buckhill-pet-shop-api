@@ -74,7 +74,6 @@ class Product extends Model
         'metadata' => 'array',
     ];
 
-
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */

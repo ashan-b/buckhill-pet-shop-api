@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\Api\V1;
 
-use App\Models\User;
-use App\Http\Traits\JwtTokenHelper;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Hash;
-use App\Http\Traits\ResponseGenerator;
 use App\Http\Requests\Api\V1\AdminController\AdminLoginRequest;
 use App\Http\Requests\Api\V1\AdminController\AdminLogoutRequest;
+use App\Http\Traits\JwtTokenHelper;
+use App\Http\Traits\ResponseGenerator;
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 
 class AdminController extends Controller
 {

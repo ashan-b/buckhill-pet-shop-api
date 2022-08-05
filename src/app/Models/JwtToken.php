@@ -41,7 +41,6 @@ class JwtToken extends Model
 {
     use HasFactory;
     use Prunable;
-
     /**
      * The attributes that are mass assignable.
      *
@@ -55,18 +54,14 @@ class JwtToken extends Model
         'permissions',
         'expires_at',
         'last_used_at',
-        'refreshed_at'
+        'refreshed_at',
     ];
-
-
     /**
      * The attributes that should be hidden for serialization.
-     *
      * @var array<int, string>
      */
     protected $hidden = [
     ];
-
     /**
      * The attributes that should be cast.
      *
@@ -80,9 +75,8 @@ class JwtToken extends Model
         'permissions' => 'array',
         'expires_at' => 'datetime',
         'last_used_at' => 'datetime',
-        'refreshed_at' => 'datetime'
+        'refreshed_at' => 'datetime',
     ];
-
     /**
      * Get the user associated with the JWT token.
      */
@@ -90,11 +84,8 @@ class JwtToken extends Model
     {
         return $this->hasOne(User::class);
     }
-
     /**
-     *
      * Get the prunable model query.
-     *
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function prunable()

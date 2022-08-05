@@ -39,7 +39,7 @@ class Payment extends Model
     protected $fillable = [
         'uuid',
         'type',
-        'details'
+        'details',
     ];
 
     /**
@@ -58,7 +58,7 @@ class Payment extends Model
     protected $casts = [
         'uuid' => 'string',
         'type' => 'string',
-        'details' => 'array'
+        'details' => 'array',
     ];
 
     public function order()

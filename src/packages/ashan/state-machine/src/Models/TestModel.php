@@ -2,8 +2,8 @@
 
 namespace Ashan\StateMachine\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Ashan\StateMachine\Traits\StateMachine;
+use Illuminate\Database\Eloquent\Model;
 
 /**
  * Ashan\StateMachine\Models\TestModel

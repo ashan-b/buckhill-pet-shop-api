@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\Http\Traits;
 
 use Response;
@@ -15,7 +14,7 @@ trait ResponseGenerator
                 'data' => $data,
                 "error" => null,
                 "errors" => [],
-                "extra" => $extra
+                "extra" => $extra,
             ],
             200
         );

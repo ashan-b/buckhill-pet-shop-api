@@ -288,13 +288,14 @@ class OrderController extends Controller
         $order->setGraph("main_graph");
         $order->products = $successArray;
         $order->address = $address;
-        //User story: If the order total amount is higher than 500 there is a free delivery otherwise, there will be a charge of 15
+        //User story: If the  total amount is higher than 500 free delivery.Else 15
         $order->delivery_fee = $orderTotal > 500 ? 0 : 15;
         $order->amount = $orderTotal;
 
         $order->payment_uuid = $payment_uuid;
 
-        // Using state machine to change the state. $order->order_status_uuid will be automatically assigned through state machine.
+        // Using state machine to change the state.
+        // $order->order_status_uuid will be automatically assigned through state machine.
         if ($order->canChangeStateByPrimaryKey($order_status_uuid) === true) {
             $order->changeCurrentStateByStatePrimaryKey($order_status_uuid);
         }

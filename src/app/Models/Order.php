@@ -65,7 +65,7 @@ class Order extends Model
         'shipped_at',
         'user_uuid',
         'order_status_uuid',
-        'payment_uuid'
+        'payment_uuid',
     ];
 
     /**
@@ -91,7 +91,7 @@ class Order extends Model
         'payment_uuid' => 'string',
         'delivery_fee' => 'double',
         'amount' => 'double',
-        'shipped_at' => 'datetime'
+        'shipped_at' => 'datetime',
     ];
 
     protected $appends = ['order_status_state'];
@@ -105,7 +105,6 @@ class Order extends Model
     {
         $this->orderStatusState = $orderStatusState;
     }
-
 
     public function user()
     {

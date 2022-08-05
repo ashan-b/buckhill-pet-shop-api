@@ -36,9 +36,8 @@ class OrderStatus extends Model
      */
     protected $fillable = [
         'uuid',
-        'title'
+        'title',
     ];
-
     /**
      * The attributes that should be hidden for serialization.
      *
@@ -46,7 +45,6 @@ class OrderStatus extends Model
      */
     protected $hidden = [
     ];
-
     /**
      * The attributes that should be cast.
      *
@@ -54,7 +52,6 @@ class OrderStatus extends Model
      */
     protected $casts = [
         'uuid' => 'string',
-        'title' => 'string'
+        'title' => 'string',
     ];
-
 }

@@ -11,7 +11,7 @@ class CurrencyExchangeRateServiceProvider extends ServiceProvider
         $this->loadRoutesFrom(__DIR__ . '/routes.php');
 
         $this->publishes(
-            [__DIR__ . '/../config/currency_exchange_rate.php' => config_path('currency_exchange_rate.php'),]
+            [__DIR__ . '/../config/currency_exchange_rate.php' => config_path('currency_exchange_rate.php')]
         );
     }
 }

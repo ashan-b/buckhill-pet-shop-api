@@ -39,7 +39,7 @@ class Category extends Model
     protected $fillable = [
         'uuid',
         'title',
-        'slug'
+        'slug',
     ];
 
     /**
@@ -58,7 +58,7 @@ class Category extends Model
     protected $casts = [
         'uuid' => 'string',
         'title' => 'string',
-        'slug' => 'string'
+        'slug' => 'string',
     ];
 
     /**

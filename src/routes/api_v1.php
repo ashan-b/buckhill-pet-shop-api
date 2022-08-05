@@ -3,7 +3,6 @@
 use App\Http\Controllers\Api\V1\AdminController;
 use App\Http\Controllers\Api\V1\OrderController;
 use App\Http\Controllers\Api\V1\UserController;
-
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -14,7 +13,6 @@ use App\Http\Controllers\Api\V1\UserController;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-
 Route::prefix('user')->group(
     function (): void {
         Route::post('/login', [UserController::class, 'login']);
@@ -27,7 +25,6 @@ Route::prefix('admin')->group(
         Route::post('/login', [AdminController::class, 'login']);
     }
 );
-
 
 Route::group(
     ['middleware' => ['jwt_verification:USER', 'xss']],

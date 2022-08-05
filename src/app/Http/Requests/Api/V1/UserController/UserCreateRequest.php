@@ -35,7 +35,7 @@ class UserCreateRequest extends FormRequest
             'password' => 'confirmed|min:8',
             'address_title' => 'required',
             'phone_number' => 'required',
-            'is_marketing' => 'boolean'
+            'is_marketing' => 'boolean',
         ];
     }
 
