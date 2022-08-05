@@ -1,11 +1,9 @@
 <?php
 
-
 namespace Ashan\StateMachine\Models;
 
-
-use Ashan\StateMachine\Traits\StateMachine;
 use Illuminate\Database\Eloquent\Model;
+use Ashan\StateMachine\Traits\StateMachine;
 
 /**
  * Ashan\StateMachine\Models\TestModel
@@ -23,11 +21,11 @@ class TestModel extends Model
     protected $orderStatusState;
 
     protected $fillable = [
-        'order_status_uuid'
+        'order_status_uuid',
     ];
 
     protected $hidden = [
-        'order_status_state'
+        'order_status_state',
     ];
 
     protected $appends = ['order_status_state'];
@@ -37,9 +35,8 @@ class TestModel extends Model
         return $this->orderStatusState;
     }
 
-    public function setOrderStatusStateAttribute($orderStatusState)
+    public function setOrderStatusStateAttribute($orderStatusState): void
     {
         $this->orderStatusState = $orderStatusState;
     }
-
 }
