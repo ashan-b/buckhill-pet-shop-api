@@ -1,6 +1,6 @@
 <?php
 
-namespace Ashan\StateMachine\Tests;
+namespace Ashan\StateMachine\Tests\Feature;
 use Ashan\StateMachine\Models\TestModel;
 use Tests\TestCase;
 
