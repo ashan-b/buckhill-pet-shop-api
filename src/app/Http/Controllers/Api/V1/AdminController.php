@@ -36,12 +36,14 @@ class AdminController extends Controller
      *                 @OA\Property(
      *                     property="email",
      *                     type="string",
-     *                     description="Admin email"
+     *                     description="Admin email",
+     *                     example="admin@gmail.com"
      *                 ),
      *                 @OA\Property(
      *                     property="password",
      *                     type="string",
-     *                     description="Admin password"
+     *                     description="Admin password",
+     *                     example="password"
      *                 ),
      *             ),
      *         )
