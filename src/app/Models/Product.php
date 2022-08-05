@@ -74,12 +74,11 @@ class Product extends Model
         'metadata' => 'array',
     ];
 
-
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
-     **/
+     */
     public function category()
     {
-        return $this->hasOne(Category::class, 'uuid','category_uuid');
+        return $this->hasOne(Category::class, 'uuid', 'category_uuid');
     }
 }

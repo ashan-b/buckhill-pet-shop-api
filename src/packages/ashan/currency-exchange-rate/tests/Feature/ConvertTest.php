@@ -1,6 +1,6 @@
 <?php
 
-namespace Ashan\CurrencyExchangeRate\Tests;
+namespace Ashan\CurrencyExchangeRate\Tests\Feature;
 
 use Ashan\CurrencyExchangeRate\Controllers\CurrencyExchangeRateController;
 use Tests\TestCase;

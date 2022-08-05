@@ -1,57 +1,35 @@
 <?php
 
-
 namespace Ashan\StateMachine\Models;
-
 
 class State
 {
-private $name;
-private $metadata;
+    protected $name;
+    protected $metadata;
 
-    /**
-     * State constructor.
-     * @param $name
-     * @param $metadata
-     */
     public function __construct($name, $metadata)
     {
         $this->name = $name;
         $this->metadata = $metadata;
     }
 
-
-    /**
-     * @return string
-     */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
 
-    /**
-     * @param string $name
-     */
-    public function setName($name)
+    public function setName(string $name): void
     {
         $this->name = $name;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getMetadata()
+    public function getMetadata(): mixed
     {
         return $this->metadata;
     }
 
-    /**
-     * @param mixed $metadata
-     */
-    public function setMetadata($metadata)
+    public function setMetadata(mixed $metadata): void
     {
         $this->metadata = $metadata;
     }
-
-
 }

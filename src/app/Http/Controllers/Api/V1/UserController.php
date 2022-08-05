@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Api\V1;
 
-use App\Http\Controllers\AppBaseController;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\V1\UserController\UserCreateRequest;
 use App\Http\Requests\Api\V1\UserController\UserLoginRequest;
@@ -13,10 +12,8 @@ use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
-
 class UserController extends Controller
 {
-
     use JwtTokenHelper;
     use ResponseGenerator;
 
@@ -148,13 +145,12 @@ class UserController extends Controller
      */
     public function create(UserCreateRequest $request)
     {
-        $user = new User;
+        $user = new User();
         $user->fill($request->all());
         $user->is_admin = false;
         $user->password = Hash::make($request->password);
         $user->uuid = Str::uuid()->toString();
         $user->save();
-
         $token = $this->generateJwtToken($user);
 
         return $this->sendSuccess(
@@ -165,23 +161,12 @@ class UserController extends Controller
                 'email' => $user->email,
                 'avatar' => $user->avatar,
                 'address_title' => $user->address_title,
-                'address_line_1' => $user->address_line_1,
-                'address_line_2' => $user->address_line_2,
-                'address_line_3' => $user->address_line_3,
-                'address_line_4_city' => $user->address_line_4_city,
-                'address_line_5_state' => $user->address_line_5_state,
-                'address_line_6_zip' => $user->address_line_6_zip,
-                'address_line_7_country' => $user->address_line_7_country,
-                'phone_number_country_code' => $user->phone_number_country_code,
                 'phone_number' => $user->phone_number,
                 'is_marketing' => $user->is_marketing,
-                'updated_at' => $user->updated_at,
-                'created_at' => $user->created_at,
-                'token' => $token
+                'token' => $token,
             ]
         );
     }
-
 
     /**
      * @OA\Post(
@@ -244,9 +229,9 @@ class UserController extends Controller
 
         $user = User::where('email', $email)->where('is_admin', false)->first();
 
-        if ($user != null && Hash::check($password, $user->password)) {
+        if ($user !== null && Hash::check($password, $user->password)) {
             $token = $this->generateJwtToken($user);
-            if ($token == null) {
+            if ($token === null) {
                 abort(500);
             }
 
@@ -254,7 +239,6 @@ class UserController extends Controller
         }
         return $this->sendError("Failed to authenticate user", [], null, 422);
     }
-
 
     /**
      * @OA\Get(
@@ -295,5 +279,4 @@ class UserController extends Controller
 
         return $this->sendError("Invalid token.", [], null, 422);
     }
-
 }

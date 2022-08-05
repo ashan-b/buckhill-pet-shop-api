@@ -3,8 +3,8 @@
 namespace App\Http\Requests\Api\V1\UserController;
 
 use App\Http\Traits\ResponseGenerator;
-use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
 class UserCreateRequest extends FormRequest
@@ -35,7 +35,7 @@ class UserCreateRequest extends FormRequest
             'password' => 'confirmed|min:8',
             'address_title' => 'required',
             'phone_number' => 'required',
-            'is_marketing' => 'boolean'
+            'is_marketing' => 'boolean',
         ];
     }
 

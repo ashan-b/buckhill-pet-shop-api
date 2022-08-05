@@ -3,14 +3,13 @@
 namespace App\Http\Requests\Api\V1\OrderController;
 
 use App\Http\Traits\ResponseGenerator;
-use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
 class OrderCreateRequest extends FormRequest
 {
     use ResponseGenerator;
-
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -20,7 +19,6 @@ class OrderCreateRequest extends FormRequest
     {
         return true;
     }
-
     /**
      * Get the validation rules that apply to the request.
      *
@@ -32,7 +30,7 @@ class OrderCreateRequest extends FormRequest
             'products' => 'required|string',
             'address' => 'required|string',
             'order_status_uuid' => 'required|exists:order_statuses,uuid',
-            'payment_uuid' => 'required|exists:payments,uuid'
+            'payment_uuid' => 'required|exists:payments,uuid',
         ];
     }
 

@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Api\V1;
 
-use App\Http\Controllers\AppBaseController;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\V1\AdminController\AdminLoginRequest;
 use App\Http\Requests\Api\V1\AdminController\AdminLogoutRequest;
@@ -11,13 +10,10 @@ use App\Http\Traits\ResponseGenerator;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 
-
 class AdminController extends Controller
 {
-
     use JwtTokenHelper;
     use ResponseGenerator;
-
 
     /**
      *  * @OA\Tag(
@@ -25,8 +21,8 @@ class AdminController extends Controller
      *     description="Admin API endpoint"
      * )
      * /
-
-    /*
+     *
+     * /*
      * @OA\Post(
      *     path="/api/v1/admin/login",
      *     summary="Login an Admin account",
@@ -87,16 +83,15 @@ class AdminController extends Controller
 
         $user = User::where('email', $email)->where('is_admin', true)->first();
 
-        if ($user != null && Hash::check($password, $user->password)) {
+        if ($user !== null && Hash::check($password, $user->password)) {
             $token = $this->generateJwtToken($user);
-            if ($token == null) {
+            if ($token === null) {
                 abort(500);
             }
 
             return $this->sendSuccess(["token" => $token]);
-        } else {
-            return $this->sendError("Failed to authenticate user", [], null, 422);
         }
+        return $this->sendError("Failed to authenticate user", [], null, 422);
     }
 
     /**
@@ -132,11 +127,10 @@ class AdminController extends Controller
         $bearerToken = $request->bearerToken();
         $tokenInvalidated = $this->invalidateJwtToken($bearerToken);
 
-        if ($tokenInvalidated == true) {
+        if ($tokenInvalidated === true) {
             return $this->sendSuccess([]);
-        } else {
-            return $this->sendError("Invalid token.", [], null, 422);
         }
-    }
 
+        return $this->sendError("Invalid token.", [], null, 422);
+    }
 }

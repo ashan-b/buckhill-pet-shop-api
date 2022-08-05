@@ -7,13 +7,49 @@ use Ashan\StateMachine\Traits\StateMachine;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * App\Models\Order
+ *
+ * @property int $id
+ * @property string $uuid
+ * @property array $products
+ * @property array $address
+ * @property float|null $delivery_fee
+ * @property float $amount
+ * @property string $user_uuid
+ * @property string $order_status_uuid
+ * @property string $payment_uuid
+ * @property \Illuminate\Support\Carbon|null $shipped_at
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property mixed $order_status_state
+ * @property-read \App\Models\OrderStatus|null $orderStatus
+ * @property-read \App\Models\Payment|null $payment
+ * @property-read \App\Models\User|null $user
+ * @method static \Illuminate\Database\Eloquent\Builder|Order newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Order newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Order query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Order whereAddress($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Order whereAmount($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Order whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Order whereDeliveryFee($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Order whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Order whereOrderStatusUuid($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Order wherePaymentUuid($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Order whereProducts($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Order whereShippedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Order whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Order whereUserUuid($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Order whereUuid($value)
+ * @mixin \Eloquent
+ */
 class Order extends Model
 {
     use HasFactory;
     use StateMachine;
     use HasUuid;
 
-    private $orderStatusState;
+    protected $orderStatusState;
 
     /**
      * The attributes that are mass assignable.
@@ -29,7 +65,7 @@ class Order extends Model
         'shipped_at',
         'user_uuid',
         'order_status_uuid',
-        'payment_uuid'
+        'payment_uuid',
     ];
 
     /**
@@ -55,7 +91,7 @@ class Order extends Model
         'payment_uuid' => 'string',
         'delivery_fee' => 'double',
         'amount' => 'double',
-        'shipped_at' => 'datetime'
+        'shipped_at' => 'datetime',
     ];
 
     protected $appends = ['order_status_state'];
@@ -69,7 +105,6 @@ class Order extends Model
     {
         $this->orderStatusState = $orderStatusState;
     }
-
 
     public function user()
     {
