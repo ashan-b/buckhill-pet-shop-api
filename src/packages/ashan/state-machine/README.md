@@ -103,14 +103,14 @@ getCurrentState()
 getNextTransitions()
 
 process($nextTransition)
-setCurrentStateByStatePrimaryKey($primaryKey, $force = false)
+changeCurrentStateByStatePrimaryKey($primaryKey, $force = false)
 
 can(string $nextTransition)
 canChangeStateByPrimaryKey(string $primaryKey)
 canChangeStateByTitle(string $title)
 ````
 ## Exceptions
-If transitions is invalid according to the state, StateMachineException will be thrown.
+If transitions is invalid according to the state, InvalidStateMachineTransition will be thrown.
 
 ## Testing
 
