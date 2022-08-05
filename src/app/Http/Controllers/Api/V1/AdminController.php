@@ -2,22 +2,18 @@
 
 namespace App\Http\Controllers\Api\V1;
 
-use App\Http\Controllers\AppBaseController;
+use App\Models\User;
+use App\Http\Traits\JwtTokenHelper;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Hash;
+use App\Http\Traits\ResponseGenerator;
 use App\Http\Requests\Api\V1\AdminController\AdminLoginRequest;
 use App\Http\Requests\Api\V1\AdminController\AdminLogoutRequest;
-use App\Http\Traits\JwtTokenHelper;
-use App\Http\Traits\ResponseGenerator;
-use App\Models\User;
-use Illuminate\Support\Facades\Hash;
-
 
 class AdminController extends Controller
 {
-
     use JwtTokenHelper;
     use ResponseGenerator;
-
 
     /**
      *  * @OA\Tag(
@@ -87,9 +83,9 @@ class AdminController extends Controller
 
         $user = User::where('email', $email)->where('is_admin', true)->first();
 
-        if ($user != null && Hash::check($password, $user->password)) {
+        if ($user !== null && Hash::check($password, $user->password)) {
             $token = $this->generateJwtToken($user);
-            if ($token == null) {
+            if ($token === null) {
                 abort(500);
             }
 
@@ -131,11 +127,10 @@ class AdminController extends Controller
         $bearerToken = $request->bearerToken();
         $tokenInvalidated = $this->invalidateJwtToken($bearerToken);
 
-        if ($tokenInvalidated == true) {
+        if ($tokenInvalidated === true) {
             return $this->sendSuccess([]);
         }
 
         return $this->sendError("Invalid token.", [], null, 422);
     }
-
 }

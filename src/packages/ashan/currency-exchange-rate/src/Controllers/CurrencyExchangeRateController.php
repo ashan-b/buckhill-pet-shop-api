@@ -2,8 +2,8 @@
 
 namespace Ashan\CurrencyExchangeRate\Controllers;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 //Load the CURRENCY_EXCHANGE_URL from env to use it in swagger annotation
 define("CURRENCY_EXCHANGE_URL", env('CURRENCY_EXCHANGE_URL', '/currency-exchange'));
@@ -101,7 +101,7 @@ class CurrencyExchangeRateController extends Controller
                 //Convert amount to EUR
                 $amount /= $baseCurrencyNode[0]['rate'];
                 $exchangeRateResponse[] = [
-                    "1 EUR" => $baseCurrencyNode[0]['rate'] . " " . $baseCurrency
+                    "1 EUR" => $baseCurrencyNode[0]['rate'] . " " . $baseCurrency,
                 ];
             }
             //Target Currency Validation
@@ -111,7 +111,7 @@ class CurrencyExchangeRateController extends Controller
             }
             $foreignCurrencyRate = $foreignCurrencyNode[0]['rate'];
             $exchangeRateResponse[] = [
-                "1 EUR" => $foreignCurrencyRate . " " . $foreignCurrency
+                "1 EUR" => $foreignCurrencyRate . " " . $foreignCurrency,
             ];
 
             $convertedAmount = round($amount * $foreignCurrencyRate, 2);
