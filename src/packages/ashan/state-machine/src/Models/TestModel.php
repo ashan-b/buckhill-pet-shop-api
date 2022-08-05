@@ -7,6 +7,15 @@ namespace Ashan\StateMachine\Models;
 use Ashan\StateMachine\Traits\StateMachine;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * Ashan\StateMachine\Models\TestModel
+ *
+ * @property mixed $order_status_state
+ * @method static \Illuminate\Database\Eloquent\Builder|TestModel newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|TestModel newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|TestModel query()
+ * @mixin \Eloquent
+ */
 class TestModel extends Model
 {
     use StateMachine;

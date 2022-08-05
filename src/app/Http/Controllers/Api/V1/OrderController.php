@@ -341,7 +341,7 @@ class OrderController extends Controller
         //
     }
 
-    public function testState(\Illuminate\Http\Request $request)
+    public function testState()
     {
 //        $order = new Order;
 //        $order->setGraph("main_graph");
@@ -423,7 +423,7 @@ class OrderController extends Controller
      *     )
      * )
      */
-    public function download(Request $request, $uuid)
+    public function download($uuid)
     {
         $order = Order::where('uuid', $uuid)->first();
         if ($order == null) {
